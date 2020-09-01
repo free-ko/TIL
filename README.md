@@ -9,6 +9,9 @@ It's not whether you get knocked down; It's whether you get back up.
 - PropTypes
 - Class Component and State
 - ComponentLife Cycle
+  <br/>
+  <br/>
+  <br/>
 
 ## 1. Components with JSX
 
@@ -70,6 +73,10 @@ function App() {
 // I like kimbab이 나옵니다.
 ```
 
+<br/>
+<br/>
+<br/>
+
 # 🌈 6장 Component 반복
 
 - JS 배열의 Map() 함수
@@ -99,6 +106,9 @@ export default IterationSample;
 ```
 
 ⭐️오늘은 Project에서 반복적인 내용을 효율적으로 보여주고 관리하는 방법을 알아 보겠습니다.⭐️
+<br/>
+<br/>
+<br/>
 
 ## 1. JS의 Map() 함수
 
@@ -146,6 +156,10 @@ export default IterationSample;
 // 하지만 크롬 개발자 도구의 콘솔을 열어 보면 "key" prop이 없다는 경고 메시지를 표시 했습니다.
 ```
 
+<br/>
+<br/>
+<br/>
+
 ## 2. Key
 
 - React에서 key는 Component 배열을 Rendering 했을 때 어떤 원소에 변동이 있었는지 알아내려고 사용합니다.
@@ -186,6 +200,10 @@ export default IterationSample;
 // 단 주의해야 할 부분은 고유한 값이 없을 때만 index 값을 key로 사용해야 합니다.
 // index를 key로 사용하면 배열이 변경될 때 효율적으로 리 랜더링 하지 못합니다.
 ```
+
+<br/>
+<br/>
+<br/>
 
 ## 3.응용
 
@@ -373,6 +391,10 @@ const IterationSample = () => {
   );
 };
 ```
+
+<br/>
+<br/>
+<br/>
 
 ## 4.정리
 
