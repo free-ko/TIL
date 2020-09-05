@@ -204,6 +204,80 @@ render() {....}
 - 또 리액트는 다른 웹 프레임 워크나 라이브러리와 혼용할 수 있습니다.
 - 예를 들어 Backbone, JS, AngularJS 등의 프레임워크와 함께 언제든지 사용할 수 있습니다.
 
+<br/>
+<br/>
+<br/>
+
+# 🌈 2장 JSX
+
+- 코드 이해하기
+- JSX란?
+- JSX의 장점
+- JSX의 문법
+
+## 1.코드 이해 하기
+
+```jsx
+// create-react-app hello-react
+
+import React from "react";
+import logo from "./logo.svg";
+import "./App.css";
+
+function App() {
+  return (
+    <div className="App">
+      <header className="App-header">
+        <img src={logo} className="App-logo" alt="logo" />
+        <p>
+          Edit <code>src/App.js</code> ande save to reload.
+        </p>
+        <a
+          className="App-link"
+          href="https://reactjs.org"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {" "}
+          Learn React{" "}
+        </a>
+      </header>
+    </div>
+  );
+}
+
+export default App;
+```
+
+```jsx
+// 이 코드는 React를 불러와서 사용 할 수 있게 해 줍니다.
+
+import React from "react";
+import logo from "./logo.svg";
+import "./App.css";
+```
+
+- React Project 만들 때 node_modules라는 디렉터리도 함께 생성됩니다
+- node_modules에서 React를 불러와서 사용을 합니다.
+- 사실 모듈을 불러와서 사용하는 것은 원래 브라우저에 없던 기능입니다.
+- 브라우저가 아닌 환경에서 JS를 실행 할 수 있게 해주는 환경인 Node.js에서 지원하는 기능입니다.
+- 참고로 Node.js에서는 import가 아닌 require라는 구문으로 패키지를 불러 올 수 있습니다.
+- 이러한 기능은 브라우저에서도 사용하기 위해 Bundler를 사용합니다.
+- 대표적인 Bundler로 웹펩, Parcel, browserify라는 도구들이 있으며, 각 도구마다 특성이 다릅니다.
+- React 프로젝트는 주로 웹팩을 사용하는 추세입니다.
+- 의성과 확장성이 다른 도구보다 뛰어나기 때문입니다.
+- 번들로 도구를 사용하면 import(또는 require)로 모듈을 불러왔을 때 불러온 모듈을 모두 합쳐서 하나의 파일을 생성해 줍니다.
+- 또 최적화 과정에서 여러 개의 파일로 분리 될 수 있습니다.
+- 그리고 웹팩을 사용하면 SVG 파일과 CSS파일도 불러와서 사용 할 수 있습니다.
+- 이렇게 파일들을 불러오는 것은 웹팩의 Loader라는 기능이 담당합니다.
+- 예를 들어 css-loader는 CSS파일을 불러올 수 있게 해 주고
+- file-loader는 웹 폰트나 미디어 파일 등을 불러 올 수 있께 해 줍니다.
+- 그리고 babel-loader는 JS 파일들을 불러오면서 최신 JS 문법으로 작성된 코드를 바벨이라는 도구를 사용하여 ES5 문법으로 변환해줍니다.
+
+<br/>
+<br/>
+<br/>
+
 # 🌈 6장 Component 반복
 
 - JS 배열의 Map() 함수
