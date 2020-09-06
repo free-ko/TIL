@@ -274,6 +274,44 @@ import "./App.css";
 - file-loader는 웹 폰트나 미디어 파일 등을 불러 올 수 있께 해 줍니다.
 - 그리고 babel-loader는 JS 파일들을 불러오면서 최신 JS 문법으로 작성된 코드를 바벨이라는 도구를 사용하여 ES5 문법으로 변환해줍니다.
 
+## 2.JSX란?
+
+```jsx
+function App() {
+  return (
+    <div>
+      Hello <b>react</b>
+    </div>
+  );
+}
+
+// 위의 코드를 바벨로 일반 JS로 변환했을 경우
+function App() {
+  return React.createElement(
+    "div",
+    null,
+    "Hello",
+    React.createElement("b", null, "react")
+  );
+}
+
+// 변환된 코드를 사용하게 되면
+// 매번 React.createElement 함수를 사용해야 하는 불편함이 있습니다.
+// 그래서 JSX를 사용하면 매우 편하게 UI를 랜더링 할 수 있습니다.
+```
+
+## 3.JSX의 장점
+
+### 1) 보기 쉽고 익숙하다
+
+- 가독성이 높고 작성하기도 쉽다
+
+### 2) 더욱 높은 활용도
+
+- JSX에서는 우리가 알고 있는 `div`나 `span` 같은 HTML 태그를 사용할 수 있을 뿐 아니라
+- Component도 JSX 안에서 작성 할 수 있습니다.
+- 즉 Component를 일반 HTML의 태그처럼 사용 할 수 있습니다.
+
 <br/>
 <br/>
 <br/>
