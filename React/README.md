@@ -312,6 +312,38 @@ function App() {
 - Component도 JSX 안에서 작성 할 수 있습니다.
 - 즉 Component를 일반 HTML의 태그처럼 사용 할 수 있습니다.
 
+</br>
+
+## 4. JSX 문법
+
+- Component에 여러 요소가 있다면 반드시 부모 요소 하나로 감싸야 합니다.
+- 그 이유는 Virtual DOM에서 Component 변화를 감지해 낼 때 효율적으로 비교할 수 있도록 Component 내부는 하나의 DOM 트리구조로 이루어져야 한다는 규칙이 있기 때문입니다.
+- JSX 안에서는 JS 표현식을 쓸 수 있습니다.
+- JS 표현식을 작성하려면 JSX 내부에서 코드를 { }로 깜싸면 됩니다.
+- JSX 내부의 JS 표현식에서 if문을 사용 할 수 없습니다.
+- 지만 조건에 따라 다른 내용을 랜더링해야 할 때는 JSX 밖에서 if 문을 사용하여 사전에 값을 설정하거나, { } 안에 조건부 연산자(삼항 연산자)를 사용하면 됩니다.
+
+```jsx
+return (
+  <div>
+    {name === "React" ? <h1> It's React </h1> : <h2> It' not React </h2>}
+  </div>
+);
+```
+
+- 개발하다 보면 특정 조건을 만족 할 때 내용을 보여주고, 만족하지 않을 때 아예 아무것도 랜더링 하지 않아야 하는 상황이 올 수 있습니다.
+
+```jsx
+return <div> {name === 'react' ? <h1> It's react </h1> : null </div> ;
+
+// && 연산자 사용
+
+function App() {
+	const name = 'React';
+	return <div> {name === 'React' && <h1> It's React </h1>} </div>;
+}
+```
+
 <br/>
 <br/>
 <br/>
