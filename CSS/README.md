@@ -950,3 +950,16 @@ p {
   color: #0066ff; /* rgb(0,102,255)로도 표현 가능 합니다. 또한 rgba(0, 102, 255, 1)로도 표현 가능합니다. a는 투명도를 의미 합니다. */
 }
 ```
+
+<br/>
+<br/>
+
+# 🌈 Typography - 2
+
+- 중요하지는 않지만 알아두면 좋을 것들을 정리하겠습니다.
+- Text-align : left, right, center
+- Text-indent(들여쓰기) : +- 100px 등
+- Text-transform : none, capitalize(문자의 앞 부분을 대문자로 변경합니다.), uppercase, lowercase
+- Text-decoration(줄을 끊는 것과 관련된 속성 입니다.) : none, underline, line-through, overline ex) a 택의 underline을 제거할 때 많이 사용합니다.
+- Font-style : normal, italic, oblique
+- `<em>` 이 태그 안에 글자를 작성하면 italic 이 적용되어서 보여 줍니다.
