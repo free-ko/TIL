@@ -963,3 +963,58 @@ p {
 - Text-decoration(줄을 끊는 것과 관련된 속성 입니다.) : none, underline, line-through, overline ex) a 택의 underline을 제거할 때 많이 사용합니다.
 - Font-style : normal, italic, oblique
 - `<em>` 이 태그 안에 글자를 작성하면 italic 이 적용되어서 보여 줍니다.
+
+<br/>
+<br/>
+<br/>
+
+# 🌈 WebFont
+
+- 우리가 프로젝트를 작업 할 당시 특별한 Font를 사용 할 경우 사용자에게도 그 Font를 제공해야 합니다.
+- 첫 번째 `갖다 쓴다`
+- 두 번째 `직접 제공 한다`
+
+```css
+<styles.css파일>
+
+@import url("./font.css");
+
+body {
+  font-family: "Freeko", sans-serif;
+  line-height: 1.65;
+  color: #212529;
+}
+
+.box {
+  width: 100%;
+  max-width: 540px;
+  padding: 120px 0;
+  margin: 0 auto;
+}
+
+.box h1 {
+  margin-bottom: 1.25em;
+  color: #1f2d3d;
+  line-height: 1.4;
+}
+
+.box p {
+  color: #3c4858;
+}
+```
+
+```css
+<font.css파일>
+
+/* 나만의 폰트를 만드는 방법 입니다. */
+@font-face {
+  font-family: "Freeko";
+  font-style: normal;
+  font-weight: 400;
+  src: url("./assets/fonts/NanumSquareR.eot");
+  src: url("./assets/fonts/NanumSquareR.eot?#iefix") format("embedded-opentype"),
+    url("./assets/fonts/NanumSquareR.woff2") format("woff2"),
+    url("./assets/fonts/NanumSquareR.woff") format("woff"), url("./assets/fonts/NanumSquareR.ttf")
+      format("truetype");
+}
+```
