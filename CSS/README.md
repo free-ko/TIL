@@ -1018,3 +1018,219 @@ body {
       format("truetype");
 }
 ```
+
+<br/>
+<br/>
+<br/>
+
+# 🌈 Typography Library 제작
+
+<br/>
+
+- 클래스 명도 이해하기 쉽게 작성합니다.
+- 글자 크기 뿐만 아니라 자간 및 글자 간의 간격까지 함께 작성 합니다.
+
+```css
+/* ▼ WHERE YOUR CODE BEGINS */
+
+body {
+  font-family: "Noto Sans KR", sans-serif;
+  letter-spacing: -0.015em;
+}
+
+/* Font Size */
+
+.fs-tiny {
+  font-size: 12px;
+  line-height: 1.3333333333;
+}
+
+.fs-small {
+  font-size: 14px;
+  line-height: 1.4285714286;
+}
+
+.fs-base {
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.fs-medium {
+  font-size: 18px;
+  line-height: 1.5555555556;
+}
+
+.fs-large {
+  font-size: 20px;
+  line-height: 1.6;
+}
+
+.fs-h2 {
+  font-size: 28px;
+  line-height: 1.4285714286;
+}
+
+.fs-h1 {
+  font-size: 34px;
+  line-height: 1.4117647059;
+}
+
+/* Font Weight */
+
+.fw-light,
+.fw-300 {
+  font-weight: 300;
+}
+
+.fw-regular,
+.fw-400 {
+  font-weight: 400;
+}
+
+.fw-medium,
+.fw-500 {
+  font-weight: 500;
+}
+
+.fw-bold,
+.fw-700 {
+  font-weight: 700;
+}
+
+/* Color */
+
+.text-dark {
+  color: #1f2d3d;
+}
+
+.text-primary {
+  color: #3c4858;
+}
+
+.text-secondary {
+  color: #8492a6;
+}
+
+.text-tertiary {
+  color: #c0ccda;
+}
+
+.text-white {
+  color: #fff;
+}
+
+.text-success {
+  color: #13ce66;
+}
+
+.text-error {
+  color: #ff5216;
+}
+
+.text-info {
+  color: #009eeb;
+}
+```
+
+<br/>
+
+```html
+<index.html파일>
+  <!DOCTYPE html>
+  <html lang="ko">
+    <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Typography</title>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;regular;500;700&display=swap"
+        rel="stylesheet"
+      />
+      <link rel="stylesheet" href="./typography.css" />
+      <link rel="stylesheet" href="./style.css" />
+    </head>
+    <body>
+      <div class="container">
+        <h1 class="fs-h1 fw-light text-dark">
+          버그가 너무 많아
+          <br />
+          김 버그
+        </h1>
+
+        <h3 class="fs-base fw-bold text-dark">
+          주니어 개발자의 성장 드라마, 김버그
+        </h3>
+        <p class="fs-base fw-regular text-primary">
+          속에서 같은 주며, 가지에 그들의 우리의 때문이다. 이 길지 가는 있는
+          같이, 있다. 그들에게 그들은 길지 보내는 얼마나 동력은 칼이다. 청춘
+          위하여 같은 새 노래하며 풀이 청춘을 천자만홍이 풍부하게 칼이다. 목숨이
+          사는가 그들에게 안고, 위하여서, 타오르고 말이다. 많이 자신과 얼마나
+          없으면 몸이 이것은
+          <span class="text-error">품고 있으랴?</span>
+        </p>
+
+        <h3 class="fs-base fw-bold text-dark">앞으로의 계획</h3>
+
+        <p class="fs-base fw-regular text-primary">
+          끓는 봄바람을 끝까지 심장은 사는가 끓는 철환하였는가? 찾아다녀도,
+          우리는 청춘에서만 능히 행복스럽고 바로 위하여서. 반짝이는 광야에서
+          가지에 커다란 것이 청춘은 그들은 봄바람이다. 날카로우나 피가 얼마나
+          얼마나 기쁘며, 밥을 끓는 자신과 귀는 말이다. 그림자는 황금시대의
+          현저하게 곳으로 소리다.이것은 쓸쓸하랴? 가진 인간의 옷을 생명을 창공에
+          그들의 얼마나 살 따뜻한 힘있다. 현저하게 투명하되 웅대한 대한 것이다.
+        </p>
+
+        <h2 class="fs-h2 fw-regular text-dark">
+          프론트엔드 개발, 첫 단추를 꿰다
+        </h2>
+
+        <h3 class="fs-base fw-bold text-dark">HTML, CSS</h3>
+        <p class="fs-base fw-regular text-primary">
+          속에서 같은 주며, 가지에 그들의 우리의 때문이다. 이 길지 가는 있는
+          같이, 있다. 그들에게 그들은 길지 보내는 얼마나 동력은 칼이다. 청춘
+          위하여
+          <strong class="fw-bold">같은 새 노래하며</strong> 풀이 청춘을
+          천자만홍이 풍부하게 칼이다. 목숨이 사는가 그들에게 안고, 위하여서,
+          타오르고 말이다. 많이 자신과 얼마나 없으면 몸이 이것은 품고 있으랴?
+        </p>
+      </div>
+    </body>
+  </html></index.html파일
+>
+```
+
+<br/>
+
+```css
+<style.css파일>
+
+/* ▼ WHERE YOUR CODE BEGINS */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+.container {
+  width: 100%;
+  max-width: 740px;
+  padding: 48px;
+  margin: 0 auto;
+}
+
+h1 {
+  margin-bottom: 48px;
+}
+
+h2 {
+  margin-bottom: 24px;
+}
+
+h3 {
+  margin-bottom: 8px;
+}
+
+p {
+  margin-bottom: 32px;
+}
+```
