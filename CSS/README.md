@@ -1234,3 +1234,27 @@ p {
   margin-bottom: 32px;
 }
 ```
+
+</br>
+</br>
+</br>
+
+# 🌈 Background
+
+## 1. Background-Color : hex , rgb, rgba
+
+## 2. Background-image : url(' ')
+
+## 3. Background-repeat : repeat(기본 값), no-repeat
+
+## 4. Background-size : contain, cover, custom(width, height)
+
+```css
+/* Background-size : Custom */
+
+.box {
+  background-size: 100px 200px;
+}
+```
+
+## 5. Background-position : x축, y축
