@@ -1258,3 +1258,246 @@ p {
 ```
 
 ## 5. Background-position : x축, y축
+
+<br/>
+<br/>
+<br/>
+
+# 🌈 Background - 실습
+
+- `img` 을 사용하지 않고 `div` 안에 `Background-image` 를 사용 하는 이유는 사용자들이 다양한 이미지를 올릴 경우 이미지 마다 가로와 세로 길이가 다 다릅니다.
+- 그렇기 때문에 우리가 이미지를 사용자가 올릴 경우 틀을 제공해서 동일한 이미지가 올라 올 수 있도록 해줘야 합니다.
+- CSS를 사용 할 때에는 사용해야 하는 논리가 있어야 합니다.
+
+```html
+<index.html파일>
+  <!DOCTYPE html>
+  <html lang="en">
+    <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Background</title>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap"
+        rel="stylesheet"
+      />
+      <link rel="stylesheet" href="./style.css" />
+    </head>
+    <body>
+      <article class="card">
+        <div class="card-image">
+          <button
+            type="button"
+            class="like-button"
+            aria-label="Like this property"
+          ></button>
+          <!-- <img src="./assets/img-house.jpg" alt="Seoul AirBnB, hosted by Woohyeon Roh" /> -->
+        </div>
+
+        <div class="card-content">
+          <header class="card-header">
+            <div class="property-type">
+              <strong class="plus-badge">Plus</strong>
+              <span>Entire apartment</span>
+            </div>
+
+            <div class="property-rate">
+              <strong aria-label="Review: 4.97"> 4.97 </strong>
+              <span aria-label="Total 203 reviews">(203)</span>
+            </div>
+          </header>
+
+          <h1 class="card-title">
+            Unwind in a Bright Space with Rustic Accents
+          </h1>
+
+          <div class="card-detail">
+            <dl class="property-detail">
+              <div>
+                <dt class="sr-only">Rooms and beds</dt>
+                <dd>
+                  <span>2 guests</span>
+                  <span>1 bedroom</span>
+                  <span>1 bed</span>
+                  <span>1 bath</span>
+                </dd>
+              </div>
+
+              <div>
+                <dt class="sr-only">Amenities</dt>
+                <dd>
+                  <span>Wifi</span>
+                  <span>Kitchen</span>
+                </dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+      </article>
+    </body>
+  </html></index.html파일
+>
+```
+
+```css
+<sytle.css파일 > .like-button {
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+/* ▼ WHERE YOUR CODE BEGINS */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+}
+
+button {
+  border: none;
+}
+
+/* Global 하게 사용 하는 Class Name 입니다. */
+/* 눈이 불편하신 분들을 위해 html에 정보를 넣고 웹 상에서는 보이지 않도록 하기 위함입니다.*/
+/* display: none;을 할 경우 html에서도 무시 하기 때문에 사용은 하지 않습니다. */
+.sr-only {
+  position: absolute;
+  z-index: -1;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  visibility: hidden;
+}
+
+.card {
+  display: flex;
+  width: 840px;
+  padding: 24px;
+  background-color: #fff;
+}
+
+.card-image {
+  position: relative;
+  width: 300px;
+  height: 200px;
+  border-radius: 6px;
+  margin-right: 24px;
+  background-image: url("https://raw.githubusercontent.com/rohjs/bugless-101/master/css-basic/background/assets/img-house.jpg");
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.like-button {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: #fff;
+  background-image: url("https://raw.githubusercontent.com/rohjs/bugless-101/master/css-basic/background/assets/icon-favorite.svg");
+  background-size: 24px 24px;
+  background-repeat: no-repeat;
+  background-position: center center;
+  cursor: pointer;
+}
+
+/* 
+flex-grow CSS property 는 flex-item 요소가, flex-container 요소 내부에서 
+할당 가능한 공간의 정도를 선언합니다. 
+만약 형제 요소로 렌더링 된 모든 flex-item 요소들이 동일한 flex-grow 값을 갖는다면, 
+flex-container 내부에서 동일한 공간을 할당받습니다. 
+하지만 flex-grow 값으로 다른 소수값을 지정한다면, 그에 따라 다른 공간값을 나누어 할당받게 됩니다.
+*/
+.card-content {
+  flex-grow: 1;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.plus-badge {
+  display: inline-block;
+  padding: 1px 8px;
+  border-radius: 4px;
+  margin-right: 8px;
+  font-size: 14px;
+  line-height: 1.4285714286;
+  color: #fff;
+  text-transform: uppercase;
+  background-color: #92174d;
+}
+
+.property-type span {
+  font-size: 16px;
+  line-height: 1.25;
+  color: #7d858f;
+}
+
+.property-rate {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+/* 정보가 아니기 때문에 CSS로 처리 합니다. */
+.property-rate::before {
+  content: "";
+  display: block;
+  width: 16px;
+  height: 16px;
+  margin-right: 4px;
+  background-image: url("https://raw.githubusercontent.com/rohjs/bugless-101/master/css-basic/background/assets/icon-star.svg");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+.property-rate {
+  font-size: 16px;
+  line-height: 1.25;
+  color: #7d858f;
+}
+
+.property-rate strong {
+  margin-right: 2px;
+  font-weight: 400;
+  color: #151b26;
+}
+
+.card-title {
+  margin-bottom: 16px;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.6;
+  color: #151b26;
+}
+
+.property-detail {
+  font-size: 14px;
+  line-height: 1.1428571429;
+  color: #7d858f;
+}
+
+.property-detail div:first-child {
+  margin-bottom: 8px;
+}
+
+/* 가상요소는 일반적으로 inline입니다. */
+.property-detail dd span::after {
+  content: "·";
+  margin: 0 6px;
+}
+
+.property-detail dd span:last-child::after {
+  content: "";
+  margin: 0;
+}
+```
