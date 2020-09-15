@@ -1501,3 +1501,28 @@ flex-container 내부에서 동일한 공간을 할당받습니다.
   margin: 0;
 }
 ```
+
+<br/>
+<br/>
+<br/>
+
+# 🌈 Transition
+
+- 속성 : property, duration, [timing-function], [delay]
+- 제일 먼저 선언 되어야 하는 요소는 property 입니다.
+- duration : 지속 시간 입니다. (ms, s, 1000ms == 1s)
+- timing-function : transition 변화의 속도를 지정합니다.
+- ease-in(처음에만 천천히), ease-out(나중에 천천히), ease-in-out, cubic-bezier()
+- delay :
+
+```css
+.box {
+  transition: all 2s ease-in;
+  transition: font-size 1000ms ease-out, background-color 2000ms cubic-bezier(
+        0.08,
+        0.57,
+        0.97,
+        -0.78
+      ) 1000ms;
+}
+```
