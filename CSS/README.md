@@ -1526,3 +1526,75 @@ flex-container 내부에서 동일한 공간을 할당받습니다.
       ) 1000ms;
 }
 ```
+
+<br/>
+<br/>
+<br/>
+
+# 🌈 Animation
+
+- Animation vs Transition ( 속성이 전환 )
+- Animation의 예시
+
+```css
+.animation {
+  animation: animation-name 1000ms ease-in-out 500ms infinite;
+}
+```
+
+- Animation Name : @keyframes를 통해 Animation을 정의 합니다.
+
+```css
+@keyframes name {
+  from {
+    /* Rules */
+  }
+  to {
+    /* Rules */
+  }
+}
+
+@keyframes name {
+  0% {
+    /* Rules */
+  }
+  50% {
+    /* Rules */
+  }
+  100% {
+    /* Rules */
+  }
+}
+```
+
+- Animation Duration : 지속시간 입니다.
+- Timing-Function : ease-in, ease-out, ease-in-out, cubic-bezier()
+- Delay : Delay후에 작동 합니다.
+- Iteration-count : 반복 횟수를 의미 합니다.
+- Direction : Animation의 진행 방향을 의미 합니다. ( From - To )
+
+```css
+.box {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  background: #0066ff; /* 애니메이션이 끝나고 기본값이 있어야 됩니다. */
+  animation-name: move-box;
+  animation-duration: 1000ms;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite; /* Animation이 무한대로 반복 됩니다. */
+  animation-direction: alternat; /* 자연스럽게 애니메이션이 끝나고 되돌아 갑니다. */
+}
+
+@keyframes move-box;
+ {
+  from {
+    top: 0;
+    background-color: #0066ff;
+  }
+  to {
+    top: 200px;
+    background-color: #ff4949;
+  }
+}
+```
