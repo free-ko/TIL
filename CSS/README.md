@@ -1598,3 +1598,76 @@ flex-container 내부에서 동일한 공간을 할당받습니다.
   }
 }
 ```
+
+<br/>
+<br/>
+<br/>
+
+# 🌈 Transition 훈련
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Transition</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <button type="button" class="line-button">Button</button>
+  </body>
+</html>
+```
+
+```css
+* {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+body {
+  font-family: "Lato", sans-serif;
+}
+
+button,
+input,
+textarea {
+  font-family: "Lato", sans-serif;
+}
+
+button {
+  outline: none;
+  border: none;
+  background-color: #fff;
+}
+
+.line-button {
+  position: relative;
+  padding: 18px 30px;
+  font-size: 16px;
+  line-height: 1.25;
+  color: #151b26;
+  cursor: pointer;
+}
+
+.line-button::after {
+  content: "";
+  position: absolute; /* position을 주게 되면 block이 됩니다. */
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: #0066ff;
+  transition: width 250ms ease-in, background-color 250ms ease-in;
+}
+
+.line-button:hover::after {
+  width: 100%;
+  background-color: orange;
+}
+```
