@@ -1671,3 +1671,111 @@ button {
   background-color: orange;
 }
 ```
+
+<br/>
+<br/>
+<br/>
+
+# 🌈 Animation 훈련
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Animation</title>
+    <link rel="stylesheet" href="./style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Mulish:wght@500&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <section class="loading">
+      <h1 class="loading-title">Loading...</h1>
+      <div class="progress-bar" aria-hidden="true">
+        <span class="progress-bar-gauge"></span>
+      </div>
+    </section>
+  </body>
+</html>
+```
+
+```css
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Mulish", sans-serif;
+}
+
+.loading {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.loading-title {
+  margin-bottom: 20px;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.3333333;
+  color: #151826;
+  animation-name: flicker;
+  animation-duration: 1600ms;
+  animation-iteration-count: infinite; /* 애니메이션의 효과 횟수를 무한으로 나타 냅니다. */
+  animation-direction: alternate; /* 애니메이션이 자연스럽게 교차적으로 진행되었다가 돌아옵니다. */
+}
+
+.progress-bar {
+  position: relative;
+  width: 300px;
+  height: 12px;
+  border-radius: 100px; /* px로 주는 이유는 50%를 주게되면 모양이 찌그러지게 됩니다. */
+  background-color: #e5eaef;
+  overflow: hidden; /* gauge의 width 값이 증가하여도 bar width의 값 이상으로 증가 할 경우 보여주지 않습니다. */
+}
+
+.progress-bar-gauge {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 12px;
+  border-radius: 100px;
+  background-color: #13ce65;
+  animation-name: loading-bar;
+  animation-duration: 3600ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-out;
+}
+
+@keyframes flicker {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes loading-bar {
+  0% {
+    width: 0;
+    opacity: 1;
+  }
+  80% {
+    width: 100%;
+    opacity: 1;
+  }
+  100% {
+    width: 100%;
+    opacity: 0;
+  }
+}
+```
