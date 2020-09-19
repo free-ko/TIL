@@ -1779,3 +1779,77 @@ body {
   }
 }
 ```
+
+<br/>
+<br/>
+<br/>
+
+# 🌈 Box Shadow
+
+- Neomorphism 생성 사이트
+
+[Neumorphism/Soft UI CSS shadow generator](https://neumorphism.io/#55b9f3)
+
+- Box-Shadow의 속성 ( 순서를 지켜서 작성해야 합니다. )
+- Property : h-offset(x축 이동), v-offset(y축 이동), blur(흐린 정도), spread(그림자 크기), color(색상)
+- 속성을 다 적을 필요는 없습니다.
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Box-Shadow</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <button type="button" class="cancel-button">Cancel</button>
+    <button type="button" class="confirm-button">Confirm</button>
+  </body>
+</html>
+```
+
+```css
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+}
+
+button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  height: 56px;
+  padding: 0 36px;
+  border: none;
+  border-radius: 50px;
+  margin: 0 8px;
+  font-size: 20px;
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+}
+
+button:focus,
+button:active {
+  outline: none;
+}
+
+.cancel-button {
+  background-color: #ff4949;
+  transition: box-shadow 250ms ease-in;
+}
+
+.cancel-button:hover {
+  box-shadow: 0 10px 16px 0 rgba(255, 73, 73, 0.35);
+}
+
+.confirm-button {
+  background-color: #13ce66;
+  box-shadow: 0 10px 16px 0 rgba(19, 206, 102, 0.35);
+}
+```
