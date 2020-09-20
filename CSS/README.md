@@ -1853,3 +1853,46 @@ button:active {
   box-shadow: 0 10px 16px 0 rgba(19, 206, 102, 0.35);
 }
 ```
+
+<br/>
+<br/>
+<br/>
+
+# 🌈 Overflow
+
+- 틀 안에 Content가 넘쳤을 때 효과를 주는 속성입니다.
+- 속성 : visible, auto, scroll, hidden
+
+<br/>
+<br/>
+<br/>
+
+# 🌈 Transform
+
+- 2,3차원에서 변형 시킵니다.
+- 진정한 CSS 장인들이 자주 사용 합니다.
+- 가장 많이 사용 하는 함수는 : translate() / scale() / rotate()
+- 가운데 정렬 할 때 자주 사용 합니다. ( 특히 position )
+
+- translate(x,y) : 옮길 때 사용 합니다.
+- 기존의 위치를 기억하기 때문에 다른 태그들에게 영향을 주지 않습니다.
+
+- 이동 단위를 %로 할 경우
+
+```css
+.box {
+  width: 100px;
+  height: 100px;
+  transform: translate(
+    100%,
+    100%
+  ); /* %로 작성할 경우 자신의 width, height를 기준으로 이동 합니다. */
+}
+```
+
+- scale(N) : N배 만큼 커집니다.
+- 자신의 크기를 기억합니다.
+- 마찬가지로 다른 요소들 에게 영향을 주지 않습니다.
+
+- rotate(Ndeg) : N deg 만큼 회전 합니다.
+- 마찬가지로 다른 요소에 영향을 주지 않습니다.
