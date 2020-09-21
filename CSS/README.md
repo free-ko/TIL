@@ -1896,3 +1896,121 @@ button:active {
 
 - rotate(Ndeg) : N deg 만큼 회전 합니다.
 - 마찬가지로 다른 요소에 영향을 주지 않습니다.
+
+<br/>
+<br/>
+<br/>
+
+# 🌈 Visibility
+
+- Visible ( 기본 값 입니다. )
+- Hidden : 그냥 보이지만 않는 것 입니다.
+
+```css
+/* 밑에 코드는 아에 태그가 사라집니다. */
+.box {
+  display: none;
+}
+```
+
+<br/>
+<br/>
+<br/>
+
+# 🌈 Selector
+
+- 원하는 요소를 고르는 방법을 배웁니다.
+- Type (Tag를 직접 접근 합니다.) & Class & ID Selector
+- Class는 중요합니다
+
+```css
+<div
+  id="free"
+  class="box"
+  > </div
+  > <div
+  class="box"
+  > </div
+  > <div
+  class="box"
+  > </div
+  > .box {
+  color: red;
+}
+#free {
+  font-size: 16px;
+}
+
+/* 2개를 하나로 표현해 보겠습니다.*/
+/* 붙어서 표현하면 ID and Class를 의미 합니다. */
+#free.box {
+  color: red;
+  font-size: 16px;
+}
+```
+
+- Child, Descendant & Sibling Combinators
+- 자식 선택자 & 자손 선택자 & 형제 선택자
+- Childe Combinator
+
+```css
+/* 자식을 선택 할 때 사용 합니다. */
+parent > child
+```
+
+- 자손 선택자
+
+```css
+/* 공백을 해줍니다. */
+parent descendants
+```
+
+- Sibling Combinators ( 여러 형제를 선택 )
+
+```css
+parent + sibling
+```
+
+- 예를 들어
+
+```css
+<ul>
+	<li></li>
+	<li></li>
+	<li class="active"></li>
+	<li></li>
+	<li></li>
+</ul>
+
+/* Class active 뒤의 모든 Li를 선택합니다. */
+.active ~ li {
+  color: blue;
+}
+/* Class active 바로 뒤의 Li(1개)를 선택합니다.*/
+.active + li {
+  color: green;
+}
+```
+
+- Structural Pseudo-classes
+- Element : first-child & last-child & :nth-child(n)
+
+```css
+<ul>
+	<li></li>
+	<li></li>
+	<li class="active"></li>
+	<li></li>
+	<li></li>
+</ul>
+
+/* Li 중에 첫번째 요소를 선택합니다. */
+li:first-child {
+  color: red;
+}
+
+/* Li 중에 3번째 요소를 선택합니다. */
+li:nth-child(3) {
+  color: blue;
+}
+```
