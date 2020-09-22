@@ -2014,3 +2014,229 @@ li:nth-child(3) {
   color: blue;
 }
 ```
+
+- hidden
+
+  ![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/6e5ba7b2-67cd-44ce-affc-ac0959b52e23/_2020-09-20__3.24.15.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/6e5ba7b2-67cd-44ce-affc-ac0959b52e23/_2020-09-20__3.24.15.png)
+
+  # 🌈 Transform
+
+  ***
+
+  - 2,3차원에서 변형 시킵니다.
+  - 진정한 CSS 장인들이 자주 사용 합니다.
+  - 가장 많이 사용 하는 함수는 : translate() / scale() / rotate()
+  - 가운데 정렬 할 때 자주 사용 합니다. ( 특히 position )
+
+  - translate(x,y) : 옮길 때 사용 합니다.
+  - 기존의 위치를 기억하기 때문에 다른 태그들에게 영향을 주지 않습니다.
+
+    ![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/bf5212d3-3dfe-42a0-8a2b-f6d8bfac6145/_2020-09-20__3.35.13.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/bf5212d3-3dfe-42a0-8a2b-f6d8bfac6145/_2020-09-20__3.35.13.png)
+
+  - 이동 단위를 %로 할 경우
+
+  ```css
+  .box {
+    width: 100px;
+    height: 100px;
+    transform: translate(
+      100%,
+      100%
+    ); /* %로 작성할 경우 자신의 width, height를 기준으로 이동 합니다. */
+  }
+  ```
+
+  - scale(N) : N배 만큼 커집니다.
+  - 자신의 크기를 기억합니다.
+  - 마찬가지로 다른 요소들 에게 영향을 주지 않습니다.
+
+  - rotate(Ndeg) : N deg 만큼 회전 합니다.
+  - 마찬가지로 다른 요소에 영향을 주지 않습니다.
+
+  # 🌈 Visibility
+
+  ***
+
+  - Visible ( 기본 값 입니다. )
+  - Hidden : 그냥 보이지만 않는 것 입니다.
+
+  ```css
+  /* 밑에 코드는 아에 태그가 사라집니다. */
+  .box {
+    display: none;
+  }
+  ```
+
+  # 🌈 Selector
+
+  ***
+
+  - 원하는 요소를 고르는 방법을 배웁니다.
+  - Type (Tag를 직접 접근 합니다.) & Class & ID Selector
+  - Class는 중요합니다
+
+  ```css
+  <div
+    id="free"
+    class="box"
+    > </div
+    > <div
+    class="box"
+    > </div
+    > <div
+    class="box"
+    > </div
+    > .box {
+    color: red;
+  }
+  #free {
+    font-size: 16px;
+  }
+
+  /* 2개를 하나로 표현해 보겠습니다.*/
+  /* 붙어서 표현하면 ID and Class를 의미 합니다. */
+  #free.box {
+    color: red;
+    font-size: 16px;
+  }
+  ```
+
+  - Child, Descendant & Sibling Combinators
+  - 자식 선택자 & 자손 선택자 & 형제 선택자
+  - Childe Combinator
+
+  ```css
+  /* 자식을 선택 할 때 사용 합니다. */
+  parent > child
+  ```
+
+  - 자손 선택자
+
+  ```css
+  /* 공백을 해줍니다. */
+  parent descendants
+  ```
+
+  - Sibling Combinators ( 여러 형제를 선택 )
+
+  ```css
+  parent + sibling
+  ```
+
+  - 예를 들어
+
+  ```css
+  <ul>
+  	<li></li>
+  	<li></li>
+  	<li class="active"></li>
+  	<li></li>
+  	<li></li>
+  </ul>
+  
+  /* Class active 뒤의 모든 Li를 선택합니다. */
+  .active ~ li {
+    color: blue;
+  }
+  /* Class active 바로 뒤의 Li(1개)를 선택합니다.*/
+  .active + li {
+    color: green;
+  }
+  ```
+
+  - Structural Pseudo-classes
+  - Element : first-child & last-child & :nth-child(n)
+
+  ```css
+  <ul>
+  	<li></li>
+  	<li></li>
+  	<li class="active"></li>
+  	<li></li>
+  	<li></li>
+  </ul>
+  
+  /* Li 중에 첫번째 요소를 선택합니다. */
+  li:first-child {
+    color: red;
+  }
+
+  /* Li 중에 3번째 요소를 선택합니다. */
+  li:nth-child(3) {
+    color: blue;
+  }
+  ```
+
+<br/>
+
+    - User Action Pseudo-classes
+    - Element : hover & focus & active
+
+    ```css
+    /*
+    PURPLE 1 #a389f5
+    PURPLE 2 #7e5bef
+    PURPlE 3 #592dea
+    BLUE 1 #85d7ff
+    BLUE 2 #1fb6ff
+    BLUE 3 #009eeb
+    */
+
+    a:active {
+    	background-color: #009eeb; /* 변화하는 찰나의 속성을 부여 합니다. */
+    }
+
+    input {
+    	outline: none;
+    	box-shadow: none;
+    }
+
+    /* 특정 행위를 했을 경우 스타일이 적용됩니다.*/
+    input:focus {
+    	border: 1px solid #592dea
+    }
+    ```
+
+    # 🌈 CSS 선택자 올림픽
+
+    ---
+
+    ```css
+    p {
+    	color: blue;
+    }
+
+    p {
+    	color: green;  /* green이 적용이 됩니다. */
+    }
+    ```
+
+⁉️선택자 우선순위를 무시하는 경우
+
+- Inline Style
+
+```html
+<p style="font-size: 32px;"></p>
+```
+
+- import : 가장 우선순위 입니다.
+
+```css
+p {
+  color: red !important;
+}
+```
+
+<br/>
+<br/>
+<br/>
+
+# 🌈 Grid System
+
+- Front-end 개발자로 입사 하게 되면 디자이너 분들의 시안을 받아서 코드로 구현을 합니다.
+- 그 때 어떠한 방식으로 디자이너분들이 작업을 했는지 생각을 해야 합니다.
+- 그 기준이 되는 것이 Grid System입니다.
+- 우리가 알아야 되는 3가지 개념이 있습니다.
+- Container & Column & Gutter
+- 12 Column을 웹 디자인에서 많이 사용 합니다.
+- Gutter는 Column의 양 옆의 간격을 의미 합니다.
