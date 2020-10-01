@@ -2353,3 +2353,212 @@ p {
   }
 }
 ```
+
+# 🌈 [실습] Landing
+
+---
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FREEKO | WEB</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./grid.min.css" />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <!-
+부트스트랩 때문에 container, row, col-12 클래스에 스타일을 적용하는 것은 비 효율적입니다.
+이미 부트스트랩에서 스타일을 적용되어져 있기 때문입니다.
+그렇기 때문에 landing-content를 만들어서 스타일을 적용합니다.
+->
+    <section class="landing">
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <div class="landing-content">
+              <h1 class="landing-title">
+                Change your career,
+                <br />
+                Change your life
+              </h1>
+              <p class="landing-desc">
+                Get ahead with expert-led training in
+                <br />
+                coding & design
+              </p>
+              <div class="button-group">
+                <a href="#" class="fill-button">Apply now</a>
+                <a href="#" class="fill-button inverted">Learn more</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>
+```
+
+```css
+* {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+body {
+  font-family: "DM Sans", sans-serif;
+}
+
+/* Reset CSS */
+@import "./reset.css";
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+textarea {
+  font-family: "DM Sans", sans-serif;
+  font-size: 16px;
+}
+
+ul,
+ol,
+li {
+  list-style: none;
+  padding-left: 0;
+  margin-left: 0;
+}
+
+button:focus,
+button:active,
+input:focus,
+input:active,
+textarea:focus,
+textarea:active {
+  outline: none;
+  box-shadow: none;
+}
+
+p {
+  font-size: 16px;
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+  color: #2b292d;
+}
+
+/*
+공통적으로 사용 하는 것들을 따로 작성합니다.
+*/
+.fill-button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 140px;
+  height:48px;
+  font-size 15px;
+  font-weight: 700;
+  line-height: 1.6;
+  letter-spacing: 1.6;
+  color:white;
+  background-color: #3040C4;
+  border-radius: 2px;
+  transition: opacity .3s ease-in-out;
+}
+
+.fill-button.inverted {
+  background-color:white;
+  color: #3040C4;
+}
+
+.fill-button:hover {
+  opacity: 0.5;
+}
+
+/* Landing */
+.landing {
+  background-color: #fdded8;
+  text-align: center;
+}
+
+.landing-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  height: 100vh;
+}
+
+.landing-title {
+  margin-bottom: 24px;
+  font-size: 40px;
+  line-height: 1;
+  letter-spacing: -0.05em;
+  color: #2b292d;
+}
+
+.landing-desc {
+  margin-bottom: 20px;
+}
+
+.landing .button-group {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.landing .button-group .fill-button:first-child {
+  margin-right: 8px;
+}
+
+/* >= 768px (Desktop) */
+@media screen and (min-width: 768px) {
+  /* Reset CSS */
+  p {
+    font-size: 22px;
+    line-height: 1.3636363636;
+  }
+
+  .fill-button {
+    width: 160px;
+    height: 56px;
+    font-size: 18px;
+    line-height: 1.5555555556;
+  }
+
+  /* Landing */
+  .landing-content {
+    height: auto;
+    padding: 120px 0;
+  }
+
+  .landing-title {
+    font-size: 70px;
+    line-height: 1.0285714286;
+    margin-bottom: 32px;
+  }
+
+  .landing-desc {
+    margin-bottom: 32px;
+  }
+
+  .landing .button-group .fill-button:first-child {
+    margin-right: 16px;
+  }
+}
+
+/* Custom Grid System - Fix container width */
+@media screen and (min-width: 1200px) {
+  .container {
+    max-width: 960px !important;
+  }
+}
+```
