@@ -250,3 +250,68 @@ GOOGLE.COM - 74.125.239.133
 FACEBOOK.COM - 173.252.120.6
 
 - 이러한 과정은 DNS 확인 (DNS resolution) 작업이라고 하는 데 이러한 작업에도 Hash Table이 사용됩니다.
+
+# 🌈 [자료 구조] Data Structure - Tree & Binary Search Tree
+
+[[자료 구조] Data Structure - (3) Tree / Binary Search Tree](https://im-developer.tistory.com/129?category=828401)
+
+## ✅ Tree
+
+---
+
+- 이름 그대로 나무를 거꾸로 뒤집어 놓은 듯한 형태 입니다.
+- 자료 구조가 하나의 뿌리에서 뻗어나가는 형상을 하고 있습니다.
+- Tree 구조는 일상에서 흔히 볼 수 있는 계층적 구조(Hierarchical Structure)를 컴퓨터에 표현한 구조 입니다.
+- 컴퓨터의 파일 시스템이나 웹 페이지의 DOM 구조도 Tree 구조 입니다.
+
+  ![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/3c02241c-d850-4e4f-953a-7de7b82a4e57/_2020-10-02__8.41.07.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/3c02241c-d850-4e4f-953a-7de7b82a4e57/_2020-10-02__8.41.07.png)
+
+- 트리의 각 요소들은 Node라고 부르고 가장 상위의 Node를 Root Node라고 부릅니다.
+- 반대로 최하위 Node는 Leaf Node 혹은 Terminal Node라고 합니다. (자식 Node가 없는 Tree 구조의 가장 하단에 있는 Node에 있는 Node들을 말합니다.)
+- 한 Node에 연결된 서브 Tree의 개수를 차수라고 합니다.
+- 예를 들어 B Node의 차수는 2개 입니다.
+- 만약에 한 Tree 내의 차수가 모두 2개 이하라면 그 Tree를 Binary Tree라고 부릅니다.
+- 현재 Node에 연결되어 있는 상위 Node는 Parent Node이며 그 하위의 자식 Node는 Child Node입니다.
+- 같은 부모 Node를 갖는 Node는 형제 Node 즉, Sibling Node입니다.
+- Level은 Root Node 부터 해당 Node 까지 경로를 찾는데 방문한 총 Node의 수를 말합니다.
+- Tree의 최대 Level 수는 Tree의 Height 혹은 Depth이라고 합니다.
+- 위의 그림은 Level 1부터 Level3가지 있고 Tree의 높이는 3입니다.
+
+<br/>
+<br/>
+<br/>
+
+## ✅ Binary Search Tree
+
+- Tree 중에 가장 유명한 구조 중 하나인 Binary Search Tree(이진 탐색 트리)입니다.
+- 이진 탐색 트리는 이진 트리 이기 때문에 모든 노드의 차수는 2개 이하여야 합니다.
+- 그로 모든 왼쪽 자식 노드는 부모의 값보다 작은 값을 가져야 하고
+- 모른 오른쪽 자식 노드는 부모의 값보다 큰 값을 가져야 한다는 특징이 있습니다.
+
+  - 6, 2, 9, 5, 8, 3, 1이란 데이터를 이진 탐색 트리로 만들면 위의 그림처럼 됩니다.
+  - 가장 먼저 들어간 6이 Root Node가 됩니다.
+  - 2는 6보다 작기 때문에 6의 왼쪽 자식 노드가 됩니다.
+  - 9는 6보다 크기 때문에 6의 오른쪽 자식 노드가 됩니다.
+  - 5는 6보다 작고 2보다 크기 때문에 2의 오른쪽 자식 노드가 됩니다.
+  - 8은 6보다 크고 9보다 작기 때문에 9의 왼쪽 자식 노드가 됩니다.
+
+  <br
+    />
+
+## ✅ Big O - Average
+
+---
+
+- 이러한 규칙으로 이루어져 있기 때문에 이진 탐색 트리는 평균적으로 이진 탐색과 똑같이 빠른 시간 복잡도를 가집니다.
+- Insertion : O(log n)
+- Deletion : O(log n)
+- Search : O(log n)
+
+## ⭐️ Big O - worst case
+
+- Data를 임의 접근 할 수 없습니다.
+- 예를 들어서 밑의 트리의 6번째 원소를 찾고 싶다고 말할 수 없습니다.
+- 또한 트리가 균형이 맞지 않는 최악의 경우에는 데이터의 삽입과 삭제 검색이 모두 O(n)만큼 소요됩니다.
+- 이진 탐색 트리의 성능이 떨어지는 경우는 가 밑에 그림과 같습니다.
+- 이렇게 데이터가 한쪽으로 치우쳐 있으면 연결 리스트와 별 차이가 없는 구조가 되어 이진 트리의 장점이 사라집니다.
+- 이러한 이진 탐색 트리의 단점을 해결 하기 위해 AVL 트리, 레드-블랙 트리, 2-3 트리 등 여러 가지 트리 구조가 존재합니다.
