@@ -2562,3 +2562,100 @@ p {
   }
 }
 ```
+
+<br/>
+<br/>
+<br/>
+
+# 🌈 [실습] Service Section
+
+```html
+<section class="service">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 col-md-6">
+        <h2 class="service-title">
+          Master the Fundamentals while Exploring new Tech
+        </h2>
+        <p class="service-desc">
+          We teach cutting-edge tech Full Stack Javascript as well as Computer
+          Science fundamentals.
+        </p>
+      </div>
+      <div class="col-12 col-md-6">
+        <h2 class="service-title">Develop Production Level Web Applications</h2>
+        <p class="service-desc">
+          You put your knowledge into action with carefully designed assignments
+          and personal software engineering projects.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+```
+
+```css
+/* Service */
+.service {
+  padding: 80px 0;
+  background-color: #F4F5F7;
+}
+
+.service .col-12:first-child {
+  margin-bottom: 40px; /* 덩어리 끼리 마진이 있는 거는 덩어리로 마진을 부여 합니다. */
+}
+
+.service-title {
+  margin-bottom: 16px;
+  font-size:22px;
+  line-height: 1.3636363636;
+  letter-spacing: -0.04em;
+  color:#2B292D;
+}
+
+/* >= 768px (Desktop) */
+@media screen and (min-width: 768px) {
+  /* Reset CSS */
+  p {
+    font-size: 22px;
+    line-height: 1.3636363636;
+  }
+
+  .fill-button {
+    width: 160px;
+    height: 56px;
+    font-size: 18px;
+    line-height: 1.5555555556;
+  }
+
+  /* Landing */
+  .landing-content {
+    height: auto;
+    padding: 120px 0;
+  }
+
+  .landing-title {
+    font-size: 70px;
+    line-height: 1.0285714286;
+    margin-bottom: 32px;
+  }
+
+  .landing-desc {
+    margin-bottom: 32px;
+  }
+
+  .landing .button-group .fill-button:first-child {
+    margin-right: 16px;
+  }
+
+  /* Service */
+  .service .col-12:first-child {
+    margin-bottom: 0;
+  }
+
+  .service-title {
+    font-size: 26px;
+    line-height: 1.3076923077;
+  }
+
+```
