@@ -2659,3 +2659,135 @@ p {
   }
 
 ```
+
+<br/>
+<br/>
+<br/>
+
+# 🌈 [실습] Program Section 1
+
+- Figma 파일을 통해 제시된 시안 속에서 공통된 스타일을 찾아서
+- 최대한 중복된 요소를 한꺼번에 스타일 적용 시키도록 합니다.
+
+```html
+<section class="program section">
+  <div class="container">
+    <div class="row justify-content-center">
+      <!-부트스트랩에서 제공하는 전용 클래스 이름입니다.->
+      <div class="col-12 col-md-10">
+        <strong class="section-category">Program</strong>
+        <h1 class="section-title">
+          Frontend Dev. <br />
+          Immersive Course
+        </h1>
+        <p class="section-desc">
+          Your best course for career transformation in front-end developement.
+          This full-time bootcamp features expert instruction, one-on-one career
+          coaching, and connections to top employers to get you hired.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+```
+
+```css
+.section {
+  padding: 80px 0;
+}
+
+.section-category {
+  display: block; /* strong 태그는 inline 이기 때문에 margin-bottom을 줄 수 없습니다. */
+  margin-bottom: 8px;
+  font-size: 16px;
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+}
+
+.section-title {
+  margin-bottom: 24px;
+  font-size: 36px;
+  line-height: 1.0588235294;
+  letter-spacing: -0.04em;
+  color: #2b292d;
+}
+
+/* Program */
+.program .section-category {
+  color: #009b4d;
+}
+
+/* >= 768px (Desktop) */
+@media screen and (min-width: 768px) {
+  /* Reset CSS */
+  p {
+    font-size: 22px;
+    line-height: 1.3636363636;
+  }
+
+  .fill-button {
+    width: 160px;
+    height: 56px;
+    font-size: 18px;
+    line-height: 1.5555555556;
+  }
+
+  .section {
+    padding-bottom: 96px;
+  }
+
+  .section-category {
+    margin-bottom: 16px;
+    font-size: 22px;
+    line-height: 1.0909090909;
+  }
+
+  .section-title {
+    margin-bottom: 32px;
+    font-size: 56px;
+    line-height: 1;
+  }
+
+  /* Landing */
+  .landing-content {
+    height: auto;
+    padding: 120px 0;
+  }
+
+  .landing-title {
+    font-size: 70px;
+    line-height: 1.0285714286;
+    margin-bottom: 32px;
+  }
+
+  .landing-desc {
+    margin-bottom: 32px;
+  }
+
+  .landing .button-group .fill-button:first-child {
+    margin-right: 16px;
+  }
+
+  /* Service */
+  .service .col-12:first-child {
+    margin-bottom: 0;
+  }
+
+  .service-title {
+    font-size: 26px;
+    line-height: 1.3076923077;
+  }
+
+  /* Program*/
+  .program {
+    text-align: center;
+  }
+}
+
+/* Custom Grid System - Fix container width */
+@media screen and (min-width: 1200px) {
+  .container {
+    max-width: 960px !important;
+  }
+}
+```
