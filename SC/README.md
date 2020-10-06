@@ -316,7 +316,6 @@ FACEBOOK.COM - 173.252.120.6
 - 이렇게 데이터가 한쪽으로 치우쳐 있으면 연결 리스트와 별 차이가 없는 구조가 되어 이진 트리의 장점이 사라집니다.
 - 이러한 이진 탐색 트리의 단점을 해결 하기 위해 AVL 트리, 레드-블랙 트리, 2-3 트리 등 여러 가지 트리 구조가 존재합니다.
 
-
 # 🌈 [HTTP] Cross-Origin Resource Sharing(CORS)에 대하여
 
 [[HTTP] Cross-Origin Resource Sharing (CORS)에 대하여](https://im-developer.tistory.com/165?category=828401)
@@ -326,7 +325,7 @@ FACEBOOK.COM - 173.252.120.6
 - 프로그래밍 공부를 하다 보면 오픈 API에 요청 보내고 응답 받는 일을 굉장히 많이 하게 됩니다.
 - 그러다 보면 CORS 에러도 필연적으로 만나게 되는데, 대체 CORS란 무엇일까요?
 
-    ![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/9b591276-0b5b-4cf7-9046-1951d0a0b18e/_2020-10-03__9.23.52.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/9b591276-0b5b-4cf7-9046-1951d0a0b18e/_2020-10-03__9.23.52.png)
+  ![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/9b591276-0b5b-4cf7-9046-1951d0a0b18e/_2020-10-03__9.23.52.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/9b591276-0b5b-4cf7-9046-1951d0a0b18e/_2020-10-03__9.23.52.png)
 
 ## ✅ Cross-Origin Resource Sharing (CORS)
 
@@ -344,7 +343,7 @@ FACEBOOK.COM - 173.252.120.6
 - 다른 도메인의 img 파일이나 css파일을 가져오는 것은 모두 가능합니다.
 - 그러나 `<script></script>` 로 감싸여진 script에서 생성된 Cross-Site HTTP Request는 Same-Origin Policy를 적용 받아 Cross-Site HTTP Request가 제한됩니다.
 - 동일 출처로 요청을 보내는 것(Same-Origin Request)은 항상 허용되지만 다른 출처로의 요청(Cross-Origin Request)은 보안상의 이유로 제한된다는 뜻입니다.
-- 그러나 AJAX가 널리 퍼지면서 `<script></script>`  안의 스크립트에서 생겨난 XMLHTTPRequest에서도 Cross-Site HTPP Request의 필요성이 매우 커졌습니다.
+- 그러나 AJAX가 널리 퍼지면서 `<script></script>` 안의 스크립트에서 생겨난 XMLHTTPRequest에서도 Cross-Site HTPP Request의 필요성이 매우 커졌습니다.
 - 그러나 W3C에서 CROS라는 이름으로 새로운 표준을 내놓게 되었습니다.
 
 - 즉 기존에 보안상의 이유로 XMLHttpRequest가 자신과 동일한 도메인으로만 HTTP 요청을 보내도록 제한하였으나 웹 개발에서 다른 도메인으로의 요청이 꼭 필요하게 되었습니다.
@@ -354,10 +353,7 @@ FACEBOOK.COM - 173.252.120.6
 <br/>
 <br/>
 
-
 ## ✅ Preflight Request
-
-
 
 - W3C 명세에 의하면 브라우저는 먼저 서버에 Preflight request(예비 요청)를 전송하여 실제 요청을 보내는 것이 안전한지 OPTIONS method로 확인합니다.
 - 그리고 서버로 부터 유효하다는 응답을 받으면 그 다음 HTTP request 메소드와 함께 Actual request(본 요청)을 보냅니다.
@@ -368,7 +364,6 @@ FACEBOOK.COM - 173.252.120.6
 
 <br/>
 
-
 ## ✅ Simple Request
 
 ---
@@ -376,9 +371,10 @@ FACEBOOK.COM - 173.252.120.6
 - 어떤 요청들은 CROS Preflight Request(사전 요청)을 발생시키지 않습니다.
 - 보통 이런 요청들을 Simple Request라고 합니다.
 - Simple Request의 경우에는 아래 3가지 조건이 모두 만족되는 경우를 말합니다.
-    1. GET / HEAD / POST 중 한 가지 Method를 사용해야 한다.
-    2. User agent에 의해 자동으로 설정되는 Header(Connection, User-Agent 또는 Fetch spec에서 'Forbidden header name'으로 정의된 Header를 제외하고, Fetch spec에서 'CORS-safelisted request-header'라고 정의되어 있는 수동 설정이 허용된 Header은 다음과 같다. ( Accept, Accept-Language, Content-Language, Content-Type, DPR, Downlink, Save-Data, Viewport-Width, Width )
-    3. 오직 아래의 Content Type만 지정해야 한다. ( application, x-www.form-urlencoded,  multipart/form-data, text/plain )
+
+  1. GET / HEAD / POST 중 한 가지 Method를 사용해야 한다.
+  2. User agent에 의해 자동으로 설정되는 Header(Connection, User-Agent 또는 Fetch spec에서 'Forbidden header name'으로 정의된 Header를 제외하고, Fetch spec에서 'CORS-safelisted request-header'라고 정의되어 있는 수동 설정이 허용된 Header은 다음과 같다. ( Accept, Accept-Language, Content-Language, Content-Type, DPR, Downlink, Save-Data, Viewport-Width, Width )
+  3. 오직 아래의 Content Type만 지정해야 한다. ( application, x-www.form-urlencoded, multipart/form-data, text/plain )
 
     <br/>
 
@@ -389,7 +385,7 @@ FACEBOOK.COM - 173.252.120.6
 - HTTP Cookie와 HTTP Authentication 정보를 인식할 수 있게 해주는 요청입니다.
 - 기본적으로 브라우저는 Non credential로 설정되어 있기 때문에 credentials 전송을 위해선 설정을 해주어야 합니다.
 - Simple Credential Request 요청 시에 xhr.withCredentials = true를 지정해서 Credential 요청을 보낼 수 있고, 서버는 Response Header에서 반드시 Access-Control-Allow-Credentials: true 를 포함해야 합니다.
-- 또한 서버는 credential 요청에 응답할 때 반드시 Access-Control-Allow-Origin Header 값으로 "*"와 같은 와일드 카드 대신 구체적인 도메인을 명시해야 합니다.
+- 또한 서버는 credential 요청에 응답할 때 반드시 Access-Control-Allow-Origin Header 값으로 "\*"와 같은 와일드 카드 대신 구체적인 도메인을 명시해야 합니다.
 
 <br/>
 
@@ -400,3 +396,48 @@ FACEBOOK.COM - 173.252.120.6
 - CORS는 브라우저가 사용하는 것 입니다.
 - 그러므로 서버에서 서버로 보내는 요청은 CORS가 적용되지 않습니다.
 - 그러므로 프록시 서버를 추가로 만들어서 클라이언트에서 우리가 새로 만든 프록시 서버로 요청을 보내고 프록시 서버에서 원하는 티켓 서버에 요청을 보내면 브라우저가 개입되지 않았기 때문에 CORS 오류를 회피 할 수 있습니다.
+
+<br/>
+<br/>
+<br/>
+
+# 🌈 [HTTP] HTTP Method 정리 : GET vs POST
+
+<br/>
+
+## ✅ GET
+
+- GET Method는 주로 데이터를 일거나(Read) 검색(Retrieve)할 때 사용 되는 메소드 입니다.
+- 만약에 GET 요청이 성공적으로 이루어 진다면 XML이나 JSON과 함께 200(Ok) HTTP 응답 코드를 리턴 합니다.
+- 에러가 발생하면 주로 404(Not Found)에러나 400(Bad requset) 에러가 발생합니다.
+- HTTP 명세에 의하면 GET 요청은 오로지 데이터를 읽을 때만 사용 되고 수정할 때는 사용하지 않습니다.
+- 따라서 이러한 이유로 사용하면 안전하다고 간주 됩니다.
+- 즉 데이터의 변형의 위험 없이 사용할 수 있다는 뜻 입니다.
+- 게다가 GET 요청은 idempotent(연산을 여러 번 작용해도 결과가 달라지지 않음)합니다.
+- 즉, 같은 요청을 여러번 하더라도 변함 없이 항상 같은 응답을 받을 수 있습니다.
+- 그러므로 GET을 데이터를 변경하는 등의 안전하지 않은 연산에 사용하면 안됩니다.
+
+<br/>
+
+## ✅ POST
+
+---
+
+- POST 메소드는 주로 리소스를 생성(Create)할 때 사용됩니다.
+- 조금 더 구체적으로 POST는 하위 리소스(부모 리소스의 하위 리소스)들을 생성할 때 사용됩니다.
+- 성공적으로 Creation을 완료하면 201(Created) HTTP 응답을 반환합니다.
+- POST 요청은 안전하지도 않고 idempotent하지도 않습니다.
+- 다시 말해서 같은 POST 요청을 반복해서 했을 때 항상 같은 결과물이 나오는 것을 보장하지 않는 다는 것 입니다.
+- 그러므로 두 개의 같은 POST 요청을 보내면 같은 정보를 담은 두 개의 다른 resource를 반환 할 가능성이 높습니다.
+
+<br/>
+
+## ✅ GET vs POST
+
+---
+
+- HTTP POST 요청은 클라이언트에서 서버로 전송할 때 추가적인 데이터를 Body에 포함 할 수 있습니다.
+- 반면에 GET 요청은 모든 필요한 데이터를 URL에 포함하여 요청해야 합니다.
+- HTML의 `<form>` 태그에 `method="POST" or method="GET"(기본값)` 을 모두 사용 할 수 있습니다.
+- 만약에 GET 메소드를 사용하면 모든 form data는 URL로 인코딩되어 action URL에 query string parameters로 전달됩니다.
+- POST 메소드를 사용하면 form data는 HTTP request의 message body에 나타날 것 입니다.
