@@ -2791,3 +2791,112 @@ p {
   }
 }
 ```
+
+<br/>
+<br/>
+<br/>
+
+# 🌈 [실습] Program Section 2
+
+- 스타일을 작업을 할 경우에는 항상 모바일 먼저 하면 됩니다.
+- 스타일 클래스 작성은 큰 것부터 작은 순서로 위에서 아래로 작성합니다.
+
+```html
+<div class="row">
+  <div class="col-12 col-md-4">
+    <a href="#" class="program-card">
+      <img src="./assets/img-fulltime-campus.png" alt="" />
+      <strong>Full-Time On Campus</strong>
+    </a>
+  </div>
+  <div class="col-12 col-md-4">
+    <a href="#" class="program-card">
+      <img src="./assets/img-fulltime-remote.png" alt="" />
+      <strong>Full-Time Remote</strong>
+    </a>
+  </div>
+  <div class="col-12 col-md-4">
+    <a href="#" class="program-card">
+      <img src="./assets/img-parttime-flex.png" alt="" />
+      <strong>Part-Time Flex</strong>
+    </a>
+  </div>
+</div>
+```
+
+```css
+/* 모바일 */
+
+/* Program */
+.program .row:first-child {
+  margin-bottom: 32px;
+}
+
+.program .col-md-4 {
+  margin-bottom: 20px;
+}
+
+.program .col-md-4:last-child{
+  margin-bottom: 0;
+}
+
+.program .section-category {
+  color: #009B4D;
+}
+
+.program-card {
+  display:block;
+  padding:24px 0 32px;
+  border-radius: 8px;
+  text-align: center;
+  background-color: #fff;
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1), 0px 4px 6px rgba(0, 0, 0, 0.05), inset 0px 1px 0px rgba(255, 255, 255, 0.1);
+  transition: background-color 300ms ease-in-out,
+    box-shadow 300ms ease-in-out;
+}
+
+.program-card:hover {
+  background-color: #3141c5;
+  box-shadow: 0px 11px 55px rgba(0,0,0,0.07),
+  0px 13px 18px rgba(0,0,0,0.15);
+}
+
+.program-card:hover strong{
+  color:#fff;
+}
+
+.program-card img{
+  display: block;
+  width:auto;
+  height:195px;
+  margin:0 auto 16px;
+}
+
+.program-card strong {
+  font-size: 18px;
+  line-height: 1.3333333333;
+  letter-spacing: -0.02em;
+  transition: color 300ms ease-in-out;
+}
+
+/* 데스크 탑 */
+
+/* Program*/
+  .program {
+    text-align: center;
+  }
+
+  .program .row:first-child {
+    margin-bottom: 72px;
+  }
+
+  .program-card img {
+    margin-bottom: 24px;
+  }
+
+  .program-card strong {
+    font-size: 20px;
+    line-height: 1.2;
+  }
+}
+```
