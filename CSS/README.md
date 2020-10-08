@@ -2900,3 +2900,110 @@ p {
   }
 }
 ```
+
+<br/>
+<br/>
+<br/>
+
+# 🌈 [실습] Curriculum Section
+
+
+- 중복적으로 사용된 스타일을 적절히 사용합니다.
+
+```html
+		<section class="curriculum section">
+      <div class="container">
+        <div class="row align-items-center">  <!- 부트스트랩을 통해 스타일으 적용합니다.->
+          <div class="col-12 col-md-6">
+            <strong class="section-category"> Curriculum </strong>
+            <h1 class="section-title">Dive into the web development</h1>
+            <p class="section-desc">
+              Dive into the software development environment and the basics of
+              computing, networks, and data structures.
+            </p>
+            <a href="#" class="fill-button"> Apply now </a>
+          </div>
+          <div class="col-12 col-md-6">
+            <div class="curriculum-image">  <!-img을 다루기 위해 div를 감쌓습니다.->
+              <img src="./assets/img-curriculum.png" alt="Curriculm" />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 col-md-6">
+            <p class="curriculum-detail-desc">
+              <strong>Real-World Projects.</strong> Solve challenges that
+              professional engineers face as you work individually and in teams
+              with designers.
+            </p>
+          </div>
+          <div class="col-12 col-md-6">
+            <p class="curriculum-detail-desc">
+              <strong>Individualised Instructor Support.</strong> Get guidance,
+              feedback, and more during scheduled one-on-one check-ins.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+```
+
+```css
+/* Curriculum */
+.curriculum .row:first-child {
+  margin-bottom: 48px;
+}
+
+.curriculum .row:last-child .col-12:first-child {
+  margin-bottom: 40px;
+}
+
+.curriculum .section-category {
+  color: #0189d1;
+}
+
+.curriculum .section-desc{
+  margin-bottom: 32px;
+}
+
+.curriculum-image {
+  display:none;
+}
+
+.curriculum-detail-desc {
+  font-size: 15px;
+  line-height: 1.46666666667;
+  color: #2b292d;
+  letter-spacing: -0.01em;
+}
+
+/* Descktop */
+
+/* Curriculum */
+  .curriculum .row:first-child {
+    margin-bottom: 24px;
+  }
+  .curriculum .row:last-child .col-12:first-child {
+    margin-bottom: 0;
+  }
+
+  .curriculum .section-desc {
+    margin-bottom: 72px;
+  }
+
+  .curriculum-image {
+    display: block;
+  }
+
+  .curriculum-image img {
+    display: block;
+    width: 100%;  /* 브라우저 크기에 따라 사이즈를 유지하기 위해서 100% 줍니다. 원래 width:425px만 주게 되면 계속 이 크기를 유지해서 너무 크게 보입니다.*/
+    max-width: 425px;
+    height: auto;
+  }
+
+  .curriculum-detail-desc {
+    font-size: 18px;
+    line-height: 1.44444444444;
+  }
+```
