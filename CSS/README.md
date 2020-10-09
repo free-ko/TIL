@@ -2907,45 +2907,46 @@ p {
 
 # 🌈 [실습] Curriculum Section
 
-
 - 중복적으로 사용된 스타일을 적절히 사용합니다.
 
 ```html
-		<section class="curriculum section">
-      <div class="container">
-        <div class="row align-items-center">  <!- 부트스트랩을 통해 스타일으 적용합니다.->
-          <div class="col-12 col-md-6">
-            <strong class="section-category"> Curriculum </strong>
-            <h1 class="section-title">Dive into the web development</h1>
-            <p class="section-desc">
-              Dive into the software development environment and the basics of
-              computing, networks, and data structures.
-            </p>
-            <a href="#" class="fill-button"> Apply now </a>
-          </div>
-          <div class="col-12 col-md-6">
-            <div class="curriculum-image">  <!-img을 다루기 위해 div를 감쌓습니다.->
-              <img src="./assets/img-curriculum.png" alt="Curriculm" />
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-12 col-md-6">
-            <p class="curriculum-detail-desc">
-              <strong>Real-World Projects.</strong> Solve challenges that
-              professional engineers face as you work individually and in teams
-              with designers.
-            </p>
-          </div>
-          <div class="col-12 col-md-6">
-            <p class="curriculum-detail-desc">
-              <strong>Individualised Instructor Support.</strong> Get guidance,
-              feedback, and more during scheduled one-on-one check-ins.
-            </p>
-          </div>
+<section class="curriculum section">
+  <div class="container">
+    <div class="row align-items-center">
+      <!- 부트스트랩을 통해 스타일으 적용합니다.->
+      <div class="col-12 col-md-6">
+        <strong class="section-category"> Curriculum </strong>
+        <h1 class="section-title">Dive into the web development</h1>
+        <p class="section-desc">
+          Dive into the software development environment and the basics of
+          computing, networks, and data structures.
+        </p>
+        <a href="#" class="fill-button"> Apply now </a>
+      </div>
+      <div class="col-12 col-md-6">
+        <div class="curriculum-image">
+          <!-img을 다루기 위해 div를 감쌓습니다.->
+          <img src="./assets/img-curriculum.png" alt="Curriculm" />
         </div>
       </div>
-    </section>
+    </div>
+    <div class="row">
+      <div class="col-12 col-md-6">
+        <p class="curriculum-detail-desc">
+          <strong>Real-World Projects.</strong> Solve challenges that
+          professional engineers face as you work individually and in teams with
+          designers.
+        </p>
+      </div>
+      <div class="col-12 col-md-6">
+        <p class="curriculum-detail-desc">
+          <strong>Individualised Instructor Support.</strong> Get guidance,
+          feedback, and more during scheduled one-on-one check-ins.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
 ```
 
 ```css
@@ -2962,12 +2963,12 @@ p {
   color: #0189d1;
 }
 
-.curriculum .section-desc{
+.curriculum .section-desc {
   margin-bottom: 32px;
 }
 
 .curriculum-image {
-  display:none;
+  display: none;
 }
 
 .curriculum-detail-desc {
@@ -2980,30 +2981,184 @@ p {
 /* Descktop */
 
 /* Curriculum */
-  .curriculum .row:first-child {
-    margin-bottom: 24px;
-  }
-  .curriculum .row:last-child .col-12:first-child {
-    margin-bottom: 0;
-  }
+.curriculum .row:first-child {
+  margin-bottom: 24px;
+}
+.curriculum .row:last-child .col-12:first-child {
+  margin-bottom: 0;
+}
 
-  .curriculum .section-desc {
-    margin-bottom: 72px;
-  }
+.curriculum .section-desc {
+  margin-bottom: 72px;
+}
 
-  .curriculum-image {
-    display: block;
-  }
+.curriculum-image {
+  display: block;
+}
 
-  .curriculum-image img {
-    display: block;
-    width: 100%;  /* 브라우저 크기에 따라 사이즈를 유지하기 위해서 100% 줍니다. 원래 width:425px만 주게 되면 계속 이 크기를 유지해서 너무 크게 보입니다.*/
-    max-width: 425px;
-    height: auto;
-  }
+.curriculum-image img {
+  display: block;
+  width: 100%; /* 브라우저 크기에 따라 사이즈를 유지하기 위해서 100% 줍니다. 원래 width:425px만 주게 되면 계속 이 크기를 유지해서 너무 크게 보입니다.*/
+  max-width: 425px;
+  height: auto;
+}
 
-  .curriculum-detail-desc {
-    font-size: 18px;
-    line-height: 1.44444444444;
-  }
+.curriculum-detail-desc {
+  font-size: 18px;
+  line-height: 1.44444444444;
+}
+```
+
+<br/>
+<br/>
+<br/>
+
+# 🌈 [실습] Subscription Section
+
+```html
+<aside class="subscription">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-12 col-md-5">
+        <div class="subscription-image">
+          <img src="./assets/img-banner.png" alt="Subscribe us" />
+        </div>
+      </div>
+      <div class="col-12 col-md-7">
+        <h1 class="subscription-title">Stay with us</h1>
+        <p class="subscription-desc">
+          Subscribe to our email newsletter to stay up to date on the lates
+          updates
+        </p>
+        <form action="" method="POST" class="subscription-form">
+          <div class="input-group">
+            <input type="email" placeholder="Enter your email" />
+            <button type="submit" class="fill-button">Get started</button>
+          </div>
+          <p class="form-notice">
+            Cancel any time. Check out <a href="#">Terms of Use.</a>
+          </p>
+        </form>
+      </div>
+    </div>
+  </div>
+</aside>
+```
+
+```css
+/* Subscription */
+
+.subscription {
+  padding: 40px;
+  text-align: center;
+  background-color: #f2f8fa;
+}
+
+.subscription-image {
+  padding: 25px 0;
+}
+
+.subscription-image img {
+  display: block;
+  width: auto;
+  height: 190px;
+  margin: 0 auto;
+}
+
+.subscription-title {
+  margin-bottom: 16px;
+  font-size: 32px;
+  line-height: 1;
+  letter-spacing: -0.05em;
+  color: #2b292d;
+}
+
+.subscription-desc {
+  margin-bottom: 24px;
+}
+
+.subscription .input-group {
+  margin-bottom: 8px;
+}
+
+.subscription .input-group input {
+  width: 100%;
+  height: 48px;
+  padding: 0 16px;
+  border: none;
+  border-radius: 2px;
+  margin-bottom: 8px;
+  background-color: #fff;
+}
+
+.subscription .input-group .fill-button {
+  width: 100%;
+}
+
+.subscription-form .form-notice {
+  font-size: 13px;
+  line-height: 1.5384615385;
+  letter-spacing: 0;
+  color: #7b7b7e;
+}
+
+.subscription-form .form-notice a {
+  color: #3040c4;
+  text-decoration: underline;
+}
+
+/* Desktop */
+
+/* Subscription */
+.subscription {
+  padding: 80px 0;
+  text-align: left;
+}
+
+.subscription-image {
+  padding: 8px 0;
+}
+
+.subscription-image img {
+  height: 285px;
+  margin-left: 0;
+}
+
+.subscription-title {
+  font-size: 40px;
+}
+
+.subscription .input-group {
+  display: flex;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.subscription .input-group input {
+  height: 56px;
+  margin-right: 8px;
+  margin-bottom: 0;
+  font-size: 18px;
+  line-height: 1.33333333333;
+}
+
+/*
+.input-group 안에 2개의 영역이 있습니다.
+일단 input-group에 flex을 주게 되면 어떻게든 가로 정렬을 하게 됩니다.
+왜냐하면 기본값으로 flex-wrap : no-wrap 이기 때문에 안에 있는 자식들의 width값을 무시하게 됩니다.
+이미 input은 width:100% 이기 때문에 부모의 width를 부여 받게 되지만
+기존의 fill-button은 설정해둔 width가 있는데도 불구하고 flex-wrap 때문에 width가 줄어들었습니다.
+이 때 fill-button의 width를 유지 하기 위해서 flex-shrink:0; 을 작성해주면 자신의 기존 width를 유지 할 수 있습니다.
+또한 flex-grow는 부모의 width가 남게 되면 남은 width를 부여 받는 속성입니다.
+*/
+
+.subscription .input-group .fill-button {
+  flex-shrink: 0;
+  width: 160px;
+}
+
+.subscription .form-notice {
+  font-size: 14px;
+  line-height: 1.7142857143;
+}
 ```
