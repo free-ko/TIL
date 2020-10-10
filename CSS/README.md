@@ -3162,3 +3162,69 @@ p {
   line-height: 1.7142857143;
 }
 ```
+
+<br/>
+<br/>
+<br/>
+
+# 🌈 [실습] Footer
+
+```html
+<footer class="footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <ul class="footer-links">
+          <li class="footer-link"><a href="#"> Terms </a></li>
+          <li class="footer-link"><a href="#"> Privacy </a></li>
+          <li class="footer-link"><a href="#"> License </a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</footer>
+```
+
+```css
+/* DeskTop */
+
+/* Footer */
+.footer {
+  padding: 16px 0;
+}
+
+.footer-links {
+  display: flex;
+  align-items: center;
+}
+
+.footer-link {
+  margin-right: 16px;
+  margin-bottom: 0;
+}
+
+.footer-link:last-child {
+  margin-right: 0;
+}
+
+/* Mobile */
+
+/* Footer */
+.footer {
+  padding: 24px 0;
+}
+
+.footer-link {
+  margin-bottom: 8px;
+}
+
+.footer-link:last-child {
+  margin-bottom: 0;
+}
+
+.footer-link a {
+  font-size: 14px;
+  line-height: 1.7142857143;
+  color: #807f81;
+}
+```
