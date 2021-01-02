@@ -36,3 +36,9 @@ alert(hegith ?? 100); // 0
 let x = (1 && 2) ?? 3;
 alert(x); // 2
 ```
+
+<br>
+
+### 출처
+
+https://ko.javascript.info/nullish-coalescing-operator
