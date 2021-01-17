@@ -190,4 +190,9 @@ user.sayHi(); // ko
 - 함수를 복사해 객체 간 전달 할 수 있습니다.
 - 함수를 객체 프로퍼티에 저장해 `object.method()`같이 메서드 형태로 호출하면 `this`는 `object`를 참조 합니다.
 - 화살표 함수는 자신만의 `this`를 가지지 않는 다른 점에서 독특합니다.
-- 화살표 함수 안에서 `this`를 사용하면, 외부에서 `this` 값을 가져 옵니다..
+- 화살표 함수 안에서 `this`를 사용하면, 외부에서 `this` 값을 가져 옵니다.
+
+<br>
+
+[출처]
+https://ko.javascript.info/object-methods
