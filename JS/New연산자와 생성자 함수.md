@@ -83,3 +83,6 @@ ko.sayHi(); // Hi ko
 - 생성자 함수는 반드시 `new`연산자와 함께 호출해야 합니다.
 - `new`와 함께 호출하면 내부에서 `this`가 암시적으로 만들어지고, 마지막엔 `this`가 반환됩니다.
 - 유사한 객체를 만들 때 생성자 함수가 유용합니다.
+
+[참고]
+https://ko.javascript.info/constructor-new
