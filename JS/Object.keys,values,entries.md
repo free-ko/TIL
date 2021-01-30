@@ -88,3 +88,8 @@ let doublePrices = Object.fromEntries(
 
 alert(doublePrices.meat); // 8
 ```
+
+<br>
+
+[출처]
+https://ko.javascript.info/keys-values-entries#ref-253
