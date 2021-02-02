@@ -6,3 +6,8 @@
 - `JSON.parse`를 사용하면 JSON을 본래 값으로 역 직렬화 할 수 있습니다.
 - 위 두 메서드에 함수를 인수로 넘겨주면 원하는 값만 읽거나 쓰는 게 가능합니다.
 - `JSON.stringify`는 객체에 `toJSON` 메서드가 있으면 이를 자동으로 호출해줍니다.
+
+<br>
+
+[출처]
+https://ko.javascript.info/json
