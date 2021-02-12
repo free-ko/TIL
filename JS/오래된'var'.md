@@ -171,3 +171,8 @@ sayHi();
 <br>
 
 ### 즉시 실행 함수 표현식
+
+<br>
+
+[출처]
+https://ko.javascript.info/var
