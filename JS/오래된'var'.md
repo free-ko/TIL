@@ -243,5 +243,7 @@ function() { // <-- Error: Function statements require a function name
 - `let`이 표준에 도입된 이유가 바로 이런 부작용을 없애기 위해서입니다.
 - 변수는 블록 레벨 스코프를 갖는 게 좋으므로 이제는 `let`과 `const`를 이용해 변수를 선언하는 게 대세가 되었습니다.
 
+<br>
+
 [출처]
 https://ko.javascript.info/var
