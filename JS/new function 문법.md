@@ -47,3 +47,6 @@ func();
 <br>
 
 ## 클로저
+
+[출처]
+https://ko.javascript.info/new-function
