@@ -96,3 +96,9 @@ alert(timerId); // 위 타이머 식별자와 동일함 (취소 후에도 식별
 - 다시 한번 말씀드리자면, 스케줄링에 관한 명세는 따로 존재하지 않습니다.
 - 명세가 없기 때문에 호스트 환경마다 약간의 차이가 있을 수밖에 없습니다.
 - 참고로 브라우저는 `HTML5`의 `timers section`을 준수하고 있습니다.
+
+<br>
+
+[출처]
+https://ko.javascript.info/settimeout-setinterval
+  
