@@ -51,3 +51,8 @@ alert("다시 호출: " + slow(2)); // 윗줄과 동일한 결과
 - 캐싱 관련 코드를 함수 코드와 분리할 수 있기 때문에 함수의 코드가 간결해진다는 장점도 있습니다.
 - 아래 그림에서 볼 수 있듯이 `cachingDecorator(func)`를 호출하면 `‘래퍼(wrapper)’`, `function(x)`이 반환됩니다.
 - `래퍼 function(x)`는 `func(x)`의 호출 결과를 캐싱 로직으로 감쌉니다(wrapping).
+
+<br>
+
+[출처]
+https://ko.javascript.info/call-apply-decorators#ref-2471
