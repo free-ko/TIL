@@ -298,5 +298,7 @@ setTimeout(function run() {
   - 노트북이 배터리에 의존해서 구동 중인 경우
 - 이런 상황에서 타이머의 최소 지연 시간은 300밀리초에서 심하면 1,000밀리초까지 늘어납니다. 연장 시간은 브라우저나 구동 중인 운영 체제의 성능 설정에 따라 다릅니다.
 
+<br>
+
 [출처]
 https://ko.javascript.info/settimeout-setinterval
