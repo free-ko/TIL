@@ -220,5 +220,7 @@ worker.slow = cachingDecorator(worker.slow);
   2. 중첩 맵을 사용하기. `(max, result)` 쌍 저장은 `cache.set(min)`으로, `result`는 `cache.get(min).get(max)`을 사용해 얻습니다.
   3. 두 값을 하나로 합치기. 맵의 키로 문자열 `"min,max"`를 사용합니다. 여러 값을 하나로 합치는 코드는 해싱 함수`(hashing function)` 에 구현해 유연성을 높입니다.
 
+<br>
+
 [출처]
 https://ko.javascript.info/call-apply-decorators#ref-2471
