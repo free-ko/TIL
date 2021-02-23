@@ -194,5 +194,7 @@ alert(worker.slow(2)); // 제대로 동작합니다. 다만, 원본 함수가 �
   2. `worker.slow(2)`를 실행하면 래퍼는 2를 인수로 받고, `this = worker`가 됩니다(점 앞의 객체).
   3. 결과가 캐시되지 않은 상황이라면 `func.call(this, x)`에서 현재 `this (=worker)와 인수(=2)`를 원본 메서드에 전달합니다.
 
+<br>
+
 [출처]
 https://ko.javascript.info/call-apply-decorators#ref-2471
