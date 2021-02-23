@@ -196,5 +196,29 @@ alert(worker.slow(2)); // 제대로 동작합니다. 다만, 원본 함수가 �
 
 <br>
 
+## 여러 인수 전달하기
+
+- `cachingDecorator`를 좀 더 다채롭게 해봅시다.
+- 지금 상태론 인수가 하나뿐인 함수에만 `cachingDecorator`를 적용할 수 있습니다.
+- 복수 인수를 가진 메서드, `worker.slow`를 캐싱하려면 어떻게 해야 할지 생각해 봅시다.
+
+```js
+let worker = {
+  slow(min, max) {
+    return min + max; // CPU를 아주 많이 쓰는 작업이라고 가정
+  },
+};
+
+// 동일한 인수를 전달했을 때 호출 결과를 기억할 수 있어야 합니다.
+worker.slow = cachingDecorator(worker.slow);
+```
+
+- 지금까진 인수가 `x` 하나뿐이었기 때문에 `cache.set(x, result)`으로 결과를 저장하고 `cache.get(x)`으로 저장된 결과를 불러오기만 하면 됐습니다.
+- 그런데 이제부턴 `(min,max)`같이 인수가 여러 개이고, 이 인수들을 넘겨 호출한 결과를 기억해야 합니다. 네이티브 맵은 단일 키만 받지만 말이죠.
+- 해결 방법은 여러 가지입니다.
+  1. 복수 키를 지원하는 맵과 유사한 자료 구조 구현하기(서드 파티 라이브러리 등을 사용해도 됨)
+  2. 중첩 맵을 사용하기. `(max, result)` 쌍 저장은 `cache.set(min)`으로, `result`는 `cache.get(min).get(max)`을 사용해 얻습니다.
+  3. 두 값을 하나로 합치기. 맵의 키로 문자열 `"min,max"`를 사용합니다. 여러 값을 하나로 합치는 코드는 해싱 함수`(hashing function)` 에 구현해 유연성을 높입니다.
+
 [출처]
 https://ko.javascript.info/call-apply-decorators#ref-2471
