@@ -222,5 +222,89 @@ worker.slow = cachingDecorator(worker.slow);
 
 <br>
 
+- 세 번째 방법만으로 충분하기 때문에 이 방법을 사용해 코드를 수정해 보겠습니다.
+- 여기에 더하여 `func.call(this, x)`를 `func.call(this, ...arguments)`로 교체해, 래퍼 함수로 감싼 함수가 호출될 때 복수 인수 넘길 수 있도록 하겠습니다.
+- 더 강력해진 `cachingDecorator`를 살펴봅시다.
+
+```js
+let worker = {
+  slow(min, max) {
+    alert(`slow(${min},${max})을/를 호출함`);
+    return min + max;
+  },
+};
+
+function cachingDecorator(func, hash) {
+  let cache = new Map();
+  return function () {
+    let key = hash(arguments); // (*)
+    if (cache.has(key)) {
+      return cache.get(key);
+    }
+
+    let result = func.call(this, ...arguments); // (**)
+
+    cache.set(key, result);
+    return result;
+  };
+}
+
+function hash(args) {
+  return args[0] + "," + args[1];
+}
+
+worker.slow = cachingDecorator(worker.slow, hash);
+
+alert(worker.slow(3, 5)); // 제대로 동작합니다.
+alert("다시 호출: " + worker.slow(3, 5)); // 동일한 결과 출력(캐시된 결과)
+```
+
+- 이제 인수의 개수에 관계없이 래퍼가 잘 동작합니다.
+- 해시 함수가 복수의 인수를 자유자재로 처리할 수 있도록 수정을 해야 하긴 하지만 말이죠. 이를 가능하게 해주는 흥미로운 방법은 아래에서 소개해 드리겠습니다.
+
+1. `(\*)`로 표시한 줄에서 hash가 호출되면서 `arguments`를 사용한 단일 키가 만들어집니다. 여기선 간단한 ‘결합’ 함수로 인수 `(3, 5)`를 키 `"3,5"`로 바꿨는데, 좀 더 복잡한 경우라면 또 다른 해싱 함수가 필요할 수 있습니다.
+2. `(\*\*)`로 표시한 줄에선 `func.call(this, ...arguments)`를 사용해 컨텍스트(`this`)와 래퍼가 가진 인수 전부`(...arguments)`를 기존 함수에 전달하였습니다.
+
+<br>
+
+## func.apply
+
+- 그런데 여기서 `func.call(this, ...arguments)` 대신, `func.apply(this, arguments)`를 사용해도 됩니다.
+- 내장 메서드 `func.apply`의 문법은 다음과 같습니다.
+
+```js
+func.apply(context, args);
+
+// apply는 func의 this를 context로 고정해주고, 유사 배열 객체인 args를 인수로 사용할 수 있게 해줍니다.
+// call과 apply의 문법적 차이는 call이 복수 인수를 따로따로 받는 대신 apply는 인수를 유사 배열 객체로 받는다는 점뿐입니다.
+// 따라서 아래 코드 두 줄은 거의 같은 역할을 합니다
+```
+
+```js
+func.call(context, ...args); // 전개 문법을 사용해 인수가 담긴 배열을 전달하는 것과
+func.apply(context, args); // call을 사용하는 것은 동일합니다.
+```
+
+- 그런데 약간의 차이가 있긴 합니다.
+- 전개 문법 `...`은 이터러블 `args`을 분해 해 `call`에 전달할 수 있도록 해줍니다.
+- `apply`는 오직 유사 배열 형태의 `args`만 받습니다.
+- 이 차이만 빼면 두 메서드는 완전히 동일하게 동작합니다.
+- 인수가 `이터러블 형태`라면 `call`을, `유사 배열 형태`라면 `apply`를 사용하면 됩니다.
+- 배열같이 이터러블이면서 유사 배열인 객체엔 둘 다를 사용할 수 있는데, 대부분의 자바스크립트 엔진은 내부에서 `apply`를 최적화 하기 때문에 `apply`를 사용하는 게 좀 더 빠르긴 합니다.
+- 이렇게 컨텍스트와 함께 인수 전체를 다른 함수에 전달하는 것을 `콜 포워딩(call forwarding)` 이라고 합니다.
+- 가장 간단한 형태의 콜 포워딩은 다음과 같습니다.
+
+```js
+let wrapper = function () {
+  return func.apply(this, arguments);
+};
+
+// 이런 식으로 외부에서 wrapper를 호출하면, 기존 함수인 func를 호출하는 것과 명확하게 구분할 수 있습니다.
+```
+
+<br>
+
+## 메서드 빌리기
+
 [출처]
 https://ko.javascript.info/call-apply-decorators#ref-2471
