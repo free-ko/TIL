@@ -306,7 +306,65 @@ let wrapper = function () {
 
 ## 메서드 빌리기
 
+- 위에서 구현한 해싱 함수를 개선해봅시다.
+
+```js
+function hash(args) {
+  return args[0] + "," + args[1];
+}
+
+// 지금 상태에선 인수 두 개만 다룰 수 있습니다. args의 요소 개수에 상관없이 요소들을 합칠 수 있으면 더 좋겠네요.
+```
+
+- 가장 자연스러운 해결책은 배열 메서드 arr.join을 사용하는 것입니다.
+
+```js
+function hash(args) {
+  return args.join();
+}
+
+// 그런데 아쉽게도 이 방법은 동작하지 않습니다.
+// hash(arguments)를 호출할 때 인수로 넘겨주는 arguments는 진짜 배열이 아니고 이터러블 객체나 유사 배열 객체이기 때문입니다.
+```
+
+- 배열이 아닌 것에 `join`을 호출하면 에러가 발생합니다.
+
+```js
+function hash() {
+  alert(arguments.join()); // Error: arguments.join is not a function
+}
+
+hash(1, 2);
+```
+
+- 그런데 아래와 같은 방법을 사용하면 배열 메서드 `join`을 사용할 수 있습니다.
+
+```js
+function hash() {
+  alert([].join.call(arguments)); // 1,2
+}
+
+hash(1, 2);
+```
+
+- 일반 배열에서 `join` 메서드를 빌려오고(`[].join)`, `[].join.call`를 사용해 `arguments`를 컨텍스트로 고정한 후 `join`메서드를 호출하는 것이죠.
+- 이게 어떻게 가능할까요?
+- 네이티브 메서드 `arr.join(glue)`의 내부 알고리즘은 아주 간단하기 때문입니다.
+- 스펙을 ‘그대로’ 차용해 설명해 보겠습니다.
+- `glue`가 첫 번째 인수가 되도록 합니다. 인수가 없으면 `","`가 첫 번째 인수가 됩니다.
+- `result`는 빈 문자열이 되도록 초기화합니다.
+- `this[0]`을 `result`에 덧붙입니다.
+- `glue`와 `this[1]`를 `result`에 덧붙입니다.
+- `glue`와 `this[2]`를 `result`에 덧붙입니다.
+- `this.length`개의 항목이 모두 추가될 때까지 이 일을 반복합니다.
+- `result`를 반환합니다.
+- 기존에 `call`을 사용했던 방식처럼 `this`를 받고 `this[0]`, `this[1]` 등이 합쳐집니다.
+- 이렇게 내부 알고리즘이 구현되어있기 때문에 어떤 유사 배열이던 `this`가 될 수 있습니다.
+- 상당수의 메서드가 이런 관습을 따르고 있죠. `this`에 `arguments`가 할당되더라도 잘 동작하는 이유가 여기에 있습니다.
+
 <br>
+
+## 데코레이터와 함수 프로퍼티
 
 [출처]
 https://ko.javascript.info/call-apply-decorators#ref-2471
