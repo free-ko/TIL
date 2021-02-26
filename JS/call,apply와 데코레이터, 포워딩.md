@@ -366,5 +366,7 @@ hash(1, 2);
 
 ## 데코레이터와 함수 프로퍼티
 
+<br>
+
 [출처]
 https://ko.javascript.info/call-apply-decorators#ref-2471
