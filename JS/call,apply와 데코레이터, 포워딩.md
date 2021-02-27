@@ -396,5 +396,7 @@ let wrapper = function () {
 - 메서드 빌리기는 배열 메서드를 빌려서 이를 `arguments`에 적용할 때 흔히 사용됩니다.
 - 나머지 매개변수와 배열을 함께 사용하면 유사한 기능을 구현할 수 있습니다.
 
+<br>
+
 [출처]
 https://ko.javascript.info/call-apply-decorators#ref-2471
