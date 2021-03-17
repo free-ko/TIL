@@ -31,3 +31,8 @@ let rabbit = new Rabbit("White Rabbit"); //  rabbit.__proto__ == animal
 
 alert(rabbit.eats); // true
 ```
+
+<br>
+
+[출처]
+https://ko.javascript.info/function-prototype
