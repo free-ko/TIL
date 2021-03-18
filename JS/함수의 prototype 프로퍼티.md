@@ -30,9 +30,19 @@ Rabbit.prototype = animal;
 let rabbit = new Rabbit("White Rabbit"); //  rabbit.__proto__ == animal
 
 alert(rabbit.eats); // true
+
+// Rabbit.prototype = animal은 "new Rabbit을 호출해 만든 새로운 객체의 [[Prototype]]을 animal로 설정하라."라는 것을 의미합니다.
 ```
 
 <br>
 
+### `F.prototype`은 `new F`를 호출할 때만 사용됩니다.
+
+- `F.prototype` 프로퍼티는 `new F`가 호출될 때만 사용됩니다.
+- `new F`를 호출해 새롭게 만든 객체의 `[[Prototype]]`을 할당해 주죠.
+- 새로운 객체가 만들어진 후에 `F.prototype` 프로퍼티가 바뀌면`(F.prototype = <another object>) new F`로 만들어지는 새로운 객체는 또 다른 객체()를 `[[Prototype]]`으로 갖게 됩니다.
+- 다만, 기존에 있던 객체의 `[[Prototype]]`은 그대로 유지됩니다.
+
+<br>
 [출처]
 https://ko.javascript.info/function-prototype
