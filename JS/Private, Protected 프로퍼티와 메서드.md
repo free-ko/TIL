@@ -49,6 +49,64 @@
 
 ## 프로퍼티 보호하기
 
+- 먼저, 간단한 커피 머신 클래스를 만들어보겠습니다.
+
+```js
+class CoffeeMachine {
+  waterAmount = 0; // 물통에 차 있는 물의 양
+
+  constructor(power) {
+    this.power = power;
+    alert(`전력량이 ${power}인 커피머신을 만듭니다.`);
+  }
+}
+
+// 커피 머신 생성
+let coffeeMachine = new CoffeeMachine(100);
+
+// 물 추가
+coffeeMachine.waterAmount = 200;
+```
+
+- 현재 프로퍼티 `waterAmount`와 `power`는 `public`입니다.
+- 손쉽게 `waterAmount`와 `power`를 읽고 원하는 값으로 변경하기 쉬운 상태이죠.
+- 이제 `waterAmount`를 `protected`로 바꿔서 `waterAmount`를 통제해 보겠습니다.
+- 예시로 `waterAmount`를 0 미만의 값으로는 설정하지 못하도록 만들어 볼 겁니다.
+- `protected` 프로퍼티 명 앞엔 밑줄 `_`이 붙습니다.
+- 자바스크립트에서 강제한 사항은 아니지만, 밑줄은 프로그래머들 사이에서 외부 접근이 불가능한 프로퍼티나 메서드를 나타낼 때 씁니다.
+- `waterAmount`에 밑줄을 붙여 `protected` 프로퍼티로 만들어줍시다.
+
+```js
+class CoffeeMachine {
+  _waterAmount = 0;
+
+  set waterAmount(value) {
+    if (value < 0) throw new Error("물의 양은 음수가 될 수 없습니다.");
+    this._waterAmount = value;
+  }
+
+  get waterAmount() {
+    return this._waterAmount;
+  }
+
+  constructor(power) {
+    this._power = power;
+  }
+}
+
+// 커피 머신 생성
+let coffeeMachine = new CoffeeMachine(100);
+
+// 물 추가
+coffeeMachine.waterAmount = -10; // Error: 물의 양은 음수가 될 수 없습니다.
+
+// 이제 물의 양을 0 미만으로 설정하면 실패합니다.
+```
+
+<br>
+
+## 읽기 전용 프로퍼티
+
 <br>
 
 [출처]
