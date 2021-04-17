@@ -107,6 +107,70 @@ coffeeMachine.waterAmount = -10; // Error: 물의 양은 음수가 될 수 없�
 
 ## 읽기 전용 프로퍼티
 
+- `power` 프로퍼티를 읽기만 가능하도록 만들어봅시다.
+- 프로퍼티를 생성할 때만 값을 할당할 수 있고, 그 이후에는 값을 절대 수정하지 말아야 하는 경우가 종종 있는데, 이럴 때 읽기 전용 프로퍼티를 활용할 수 있습니다.
+- 커피 머신의 경우에는 전력이 이에 해당합니다.
+- 읽기 전용 프로퍼티를 만들려면 `setter(설정자)`는 만들지 않고 `getter(획득자)`만 만들어야 합니다.
+
+```js
+class CoffeeMachine {
+  // ...
+
+  constructor(power) {
+    this._power = power;
+  }
+
+  get power() {
+    return this._power;
+  }
+}
+
+// 커피 머신 생성
+let coffeeMachine = new CoffeeMachine(100);
+
+alert(`전력량이 ${coffeeMachine.power}인 커피머신을 만듭니다.`); // 전력량이 100인 커피머신을 만듭니다.
+
+coffeeMachine.power = 25; // Error (setter 없음)
+```
+
+<br>
+
+### getter와 setter 함수
+
+- 위에서는 `get`, `set` 문법을 사용해서 `getter`와 `setter` 함수를 만들었습니다.
+- 하지만 대부분은 아래와 같이 `get.../set...` 형식의 함수가 선호됩니다.
+
+```js
+class CoffeeMachine {
+  _waterAmount = 0;
+
+  setWaterAmount(value) {
+    if (value < 0) throw new Error("물의 양은 음수가 될 수 없습니다.");
+    this._waterAmount = value;
+  }
+
+  getWaterAmount() {
+    return this._waterAmount;
+  }
+}
+
+new CoffeeMachine().setWaterAmount(100);
+```
+
+- 다소 길어보이긴 하지만, 이렇게 함수를 선언하면 다수의 인자를 받을 수 있기 때문에 좀 더 유연합니다(위 예시에선 인자가 하나뿐이긴 하지만요).
+- 반면 `get`, `set` 문법을 사용하면 코드가 짧아진다는 장점이 있습니다. 어떤걸 사용해야 한다는 규칙은 없으므로 원하는 방식을 선택해서 사용하세요.
+
+<br>
+
+### protected 필드는 상속됩니다.
+
+- `class MegaMachine extends CoffeeMachine`로 클래스를 상속받으면, 새로운 클래스의 메서드에서 `this._waterAmount`나 `this._power`를 사용해 프로퍼티에 접근할 수 있습니다.
+- 이렇게 `protected` 필드는 아래에서 보게 될 `private` 필드와 달리, 자연스러운 상속이 가능합니다.
+
+<br>
+
+## private 프로퍼티
+
 <br>
 
 [출처]
