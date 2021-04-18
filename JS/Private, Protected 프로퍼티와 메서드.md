@@ -171,6 +171,117 @@ new CoffeeMachine().setWaterAmount(100);
 
 ## private 프로퍼티
 
+- `private` 프로퍼티와 메서드는 제안(`proposal`) 목록에 등재된 문법으로, 명세서에 등재되기 직전 상태입니다.
+- `private` 프로퍼티와 메서드는 `#`으로 시작합니다. `#`이 붙으면 클래스 안에서만 접근할 수 있습니다.
+- 물 용량 한도를 나타내는 `private` 프로퍼티 `#waterLimit`과 남아있는 물의 양을 확인해주는 `private` 메서드 `#checkWater`를 구현해봅시다.
+
+```js
+class CoffeeMachine {
+  #waterLimit = 200;
+
+  #checkWater(value) {
+    if (value < 0) throw new Error("물의 양은 음수가 될 수 없습니다.");
+    if (value > this.#waterLimit) throw new Error("물이 용량을 초과합니다.");
+  }
+}
+
+let coffeeMachine = new CoffeeMachine();
+
+// 클래스 외부에서 private에 접근할 수 없음
+coffeeMachine.#checkWater(); // Error
+coffeeMachine.#waterLimit = 1000; // Error
+```
+
+- `#`은 자바스크립트에서 지원하는 문법으로, `private` 필드를 의미합니다.
+- `private` 필드는 클래스 외부나 자손 클래스에서 접근할 수 없습니다.
+- `private` 필드는 `public` 필드와 상충하지 않습니다.
+- `private` 프로퍼티 `#waterAmount`와 `public` 프로퍼티 `waterAmount`를 동시에 가질 수 있습니다.
+- `#waterAmount`의 접근자 `waterAmount`를 만들어봅시다.
+
+```js
+class CoffeeMachine {
+  #waterAmount = 0;
+
+  get waterAmount() {
+    return this.#waterAmount;
+  }
+
+  set waterAmount(value) {
+    if (value < 0) throw new Error("물의 양은 음수가 될 수 없습니다.");
+    this.#waterAmount = value;
+  }
+}
+
+let machine = new CoffeeMachine();
+
+machine.waterAmount = 100;
+alert(machine.#waterAmount); // Error
+```
+
+- `protected` 필드와 달리, `private` 필드는 언어 자체에 의해 강제된다는 점이 장점입니다.
+- 그런데 `CoffeeMachine`을 상속받는 클래스에선 `#waterAmount`에 직접 접근할 수 없습니다.
+- `#waterAmount`에 접근하려면 `waterAmount`의 `getter`와 `setter`를 통해야 합니다.
+
+```js
+class MegaCoffeeMachine extends CoffeeMachine {
+  method() {
+    alert(this.#waterAmount); // Error: CoffeeMachine을 통해서만 접근할 수 있습니다.
+  }
+}
+```
+
+- 다양한 시나리오에서 이런 제약사항은 너무 엄격합니다.
+- `CoffeeMachine`을 상속받는 클래스에선 `CoffeeMachine`의 내부에 접근해야 하는 정당한 사유가 있을 수 있기 때문이죠.
+- 언어 차원에서 `protected` 필드를 지원하지 않아도 더 자주 쓰이는 이유가 바로 여기에 있습니다.
+
+<br>
+
+### private 필드는 this[name]로 사용할 수 없습니다.
+
+- 알다시피, 보통은 `this[name]`을 사용해 필드에 접근할 수 있습니다.
+
+```js
+class User {
+  ...
+  sayHi() {
+    let fieldName = "name";
+    alert(`Hello, ${this[fieldName]}`);
+  }
+}
+
+// 하지만 private 필드는 this[name]으로 접근할 수 없습니다. 이런 문법적 제약은 필드의 보안을 강화하기 위해 만들어졌습니다.
+```
+
+<br>
+
+## 요약
+
+- 객체 지향 프로그래밍에선 내부 인터페이스와 외부 인터페이스를 구분하는 것을 `[캡슐화(encapsulation)]`라는 용어를 사용해 설명합니다.
+- `캡슐화`는 이점은 다음과 같습니다.
+- <b>사용자가 자신의 발등을 찍지 않도록 보호</b>
+- 커피 머신를 함께 사용하는 개발팀이 있다고 상상해봅시다.
+- `"Best CoffeeMachine"`이라는 회사에서 만든 이 커피 머신은 현재 잘 작동하고 있지만, 보호 커버가 없어서 내부 인터페이스가 노출되어있는 상황입니다.
+- 교양있는 팀원들은 모두 설계 의도에 맞게 커피 머신을 사용합니다. 그런데 어느 날 John이라는 개발자가 자신의 능력을 과신하며 커피 머신 내부를 살짝 만지게 됩니다. 이틀 후, 커피 머신은 고장이 나버렸죠.
+- 커피 머신이 고장 난 건 John의 잘못이라기보다는, 보호 커버를 없애고 John이 마음대로 조작하도록 내버려 둔 사람의 잘못입니다.
+- 프로그래밍에서도 마찬가지입니다.
+- `외부에서 의도치 않게 클래스를 조작하게 되면 그 결과는 예측할 수 없게 됩니다.`
+- <b>지원 가능</b>
+- 실제 개발 과정에서 일어나는 상황은 커피 머신 사례보다 훨씬 복잡합니다.
+- 커피 머신은 한번 구매하면 끝이지만 실제 코드는 유지보수가 끊임없이 일어나기 때문입니다.
+- `내부 인터페이스를 엄격하게 구분하면, 클래스 개발자들은 사용자에게 알리지 않고도 자유롭게 내부 프로퍼티와 메서드들을 수정할 수 있습니다.`
+- 내부 인터페이스가 엄격히 구분된 클래스를 만지고 있다면, 그 어떤 외부 코드도 내부 `private` 메서드에 의존하고 있지 않기 때문에 `private` 메서드의 이름을 안전하게 바꿀 수 있고, 매개변수를 변경하거나 없앨 수도 있다는 것을 알아 두면 됩니다.
+- 사용자 입장에선 새로운 버전이 출시되면서 내부 정비가 전면적으로 이뤄졌더라도 외부 인터페이스만 똑같다면 업그레이드가 용이하다는 장점이 있습니다.
+- <b>복잡성 은닉</b>
+- 사람들은 간단한 것을 좋아합니다. 내부는 간단치 않더라도 최소한 외형은 간단해야 하죠.
+- 프로그래머들도 예외는 아닙니다.
+- <b>구현 세부 사항이 숨겨져 있으면 간단하고 편리해집니다. 외부 인터페이스에 대한 설명도 문서화하기 쉬워지죠.</b>
+- 내부 인터페이스를 숨기려면 `protected`나 `private` 프로퍼티를 사용하면 됩니다.
+- `protected` 필드는 `*`로 시작합니다. `*`은 자바스크립트에서 지원하는 문법은 아니지만, `protected` 필드를 나타낼 때 관습처럼 사용됩니다.
+- 개발자는 `protected` 프로퍼티가 정의된 클래스와 해당 클래스를 상속받는 클래스에서만 `_`가 붙은 필드에 접근해야 합니다.
+- `private` 필드는 `#`로 시작하며, 자바스크립트에서 지원하는 문법입니다.
+- `#`로 시작하는 필드는 해당 필드가 정의된 클래스 내부에서만 접근 가능합니다.
+- 모든 브라우저에서 `private` 필드를 지원하진 않지만 폴리필을 구현하여 사용할 수 있습니다.
+
 <br>
 
 [출처]
