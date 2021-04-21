@@ -59,7 +59,30 @@ let obj = { canEat: true };
 alert(obj instanceof Animal); // true, Animal[Symbol.hasInstance](obj)가 호출됨
 ```
 
-2.
+2. 그런데, 대부분의 클래스엔 `Symbol.hasInstance`가 구현되어있지 않습니다. 이럴 땐 일반적인 로직이 사용됩니다. `obj instanceOf Class`는 `Class.prototype`이 `obj` 프로토타입 체인 상의 프로토타입 중 하나와 일치하는지 확인합니다.
+
+```js
+obj.__proto__ === Class.prototype?
+obj.__proto__.__proto__ === Class.prototype?
+obj.__proto__.__proto__.__proto__ === Class.prototype?
+...
+// 이 중 하나라도 true라면 true를 반환합니다.
+// 그렇지 않고 체인의 끝에 도달하면 false를 반환합니다.
+```
+
+- 위 예시에서 `rabbit.__proto__ === Rabbit.prototype`가 `true`이기 때문에 `instanceof`는 `true`를 반환합니다.
+- 상속받은 클래스를 사용하는 경우엔 두 번째 단계에서 일치 여부가 확인됩니다.
+
+```js
+class Animal {}
+class Rabbit extends Animal {}
+
+let rabbit = new Rabbit();
+alert(rabbit instanceof Animal); // true
+
+// rabbit.__proto__ === Rabbit.prototype
+// rabbit.__proto__.__proto__ === Animal.prototype (일치!)
+```
 
 <br>
 
