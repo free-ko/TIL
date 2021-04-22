@@ -84,6 +84,27 @@ alert(rabbit instanceof Animal); // true
 // rabbit.__proto__.__proto__ === Animal.prototype (일치!)
 ```
 
+- 한편, `objA`가 `objB`의 프로토타입 체인 상 어딘가에 있으면 `true`를 반환해주는 메서드, `objA.isPrototypeOf(objB)`도 있습니다.
+- `obj instanceof Class`는 `Class.prototype.isPrototypeOf(obj)`와 동일합니다.
+- `isPrototypeOf`는 `Class` 생성자를 제외하고 포함 여부를 검사하는 점이 조금 특이합니다.
+- 검사 시, 프로토타입 체인과 `Class.prototype`만 고려합니다.
+- `isPrototypeOf`의 이런 특징은 객체 생성 후 `prototype` 프로퍼티가 변경되는 경우 특이한 결과를 초래하기도 합니다. 아래와 같이 말이죠.
+
+```js
+function Rabbit() {}
+let rabbit = new Rabbit();
+
+// 프로토타입이 변경됨
+Rabbit.prototype = {};
+
+// 더 이상 Rabbit이 아닙니다!
+alert(rabbit instanceof Rabbit); // false
+```
+
+<br>
+
+## 타입 확인을 위한 Object.prototype.toString
+
 <br>
 
 [출처]
