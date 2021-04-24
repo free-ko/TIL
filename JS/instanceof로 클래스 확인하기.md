@@ -105,6 +105,55 @@ alert(rabbit instanceof Rabbit); // false
 
 ## 타입 확인을 위한 Object.prototype.toString
 
+- 일반 객체를 문자열로 변화하면 `[object Object]`가 된다는 것을 알고 계실 겁니다.
+
+```js
+let obj = {};
+
+alert(obj); // [object Object]
+alert(obj.toString()); // 같은 결과가 출력됨
+```
+
+- 이렇게 `[object Object]`가 되는 이유는 `toString`의 구현방식 때문입니다.
+- 그런데 `toString`엔 `toString`을 더 강력하게 만들어주는 기능이 숨겨져 있습니다.
+- `toString`의 숨겨진 기능을 사용하면 확장 `typeof`, `instanceof`의 대안을 만들 수 있습니다.
+- 아직 감이 안 잡히시겠지만, 구체적으로 설명하겠습니다.
+- 명세서에 따르면, 객체에서 내장 `toString`을 추출하는 게 가능합니다.
+  = 이렇게 추출한 메서드는 모든 값을 대상으로 실행할 수 있습니다. 호출 결과는 값에 따라 달라집니다.
+- 숫자형 – `[object Number]`
+- 불린형 – `[object Boolean]`
+- `null` – `[object Null]`
+- `undefined` – `[object Undefined]`
+- 배열 – `[object Array]`
+- 그외 – 커스터마이징 가능
+
+- 예시:
+
+```js
+// 편의를 위해 toString 메서드를 변수에 복사함
+let objectToString = Object.prototype.toString;
+
+// 아래 변수의 타입은 무엇일까요?
+let arr = [];
+
+alert(objectToString.call(arr)); // [object Array]
+```
+
+- `call`을 사용해 컨텍스트를 `this=arr`로 설정하고 함수 `objectToString`를 실행하였습니다.
+- `toString` 알고리즘은 내부적으로 `this`를 검사하고 상응하는 결과를 반환합니다. 예시를 더 살펴봅시다.
+
+```js
+let s = Object.prototype.toString;
+
+alert(s.call(123)); // [object Number]
+alert(s.call(null)); // [object Null]
+alert(s.call(alert)); // [object Function]
+```
+
+<br>
+
+### Symbol.toStringTag
+
 <br>
 
 [출처]
