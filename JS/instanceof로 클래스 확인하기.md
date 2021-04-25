@@ -154,6 +154,41 @@ alert(s.call(alert)); // [object Function]
 
 ### Symbol.toStringTag
 
+-특수 객체 프로퍼티 `Symbol.toStringTag`를 사용하면 `toString`의 동작을 커스터마이징 할 수 있습니다.
+
+```js
+let user = {
+  [Symbol.toStringTag]: "User",
+};
+
+alert({}.toString.call(user)); // [object User]
+```
+
+- 대부분의 호스트 환경은 자체 객체에 이와 유사한 프로퍼티를 구현해 놓고 있습니다. 브라우저 관련 예시 몇 가지를 살펴봅시다.
+
+```js
+// 특정 호스트 환경의 객체와 클래스에 구현된 toStringTag
+alert(window[Symbol.toStringTag]); // Window
+alert(XMLHttpRequest.prototype[Symbol.toStringTag]); // XMLHttpRequest
+
+alert({}.toString.call(window)); // [object Window]
+alert({}.toString.call(new XMLHttpRequest())); // [object XMLHttpRequest]
+```
+
+- 실행 결과에서 보듯이 호스트 환경 고유 객체의 `Symbol.toStringTag` 값은 `[object ...]`로 쌓여진 값과 동일합니다.
+- 이처럼 `‘typeof’` 연산자의 강력한 변형들(`toString`과 `toStringTag` – 옮긴이)은 원시 자료형뿐만 아니라 내장 객체에도 사용할 수 있습니다. 그리고 커스터마이징까지 가능합니다.
+- 내장 객체의 타입 확인을 넘어서 타입을 문자열 형태로 받고 싶다면 `instanceof` 대신, `{}.toString.call`을 사용할 수 있습니다.
+
+<br>
+
+## 요약
+
+- `typeof` 동작 대상: 원시형 / 반환 값: 문자열
+- `{}.toString` 동작 대상: 원시형, 내장 객체, Symbol.toStringTag가 있는 객체 / 반환 값: 문자열
+- `instanceof` 동작 대상: 객체 / 반환 값: true나 false
+- 예시에서 보았듯이 `{}.toString`은 `typeof`보다 `‘기능이 더’` 많습니다.
+- `instanceof` 연산자는 계층 구조를 가진 클래스를 다룰 때나 클래스의 상속 여부를 확인하고자 할 때 그 진가를 발휘합니다.
+
 <br>
 
 [출처]
