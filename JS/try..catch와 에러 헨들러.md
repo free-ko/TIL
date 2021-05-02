@@ -190,6 +190,55 @@ try {
 
 ## 직접 에러를 만들어서 던지기
 
+- `json`이 문법적으로 잘못되진 않았지만, 스크립트 내에서 사용 중인 필수 프로퍼티 `name`을 가지고 있지 않다면 무슨 일이 생길까요?
+
+```js
+let json = '{ "age": 30 }'; // 불완전한 데이터
+
+try {
+  let user = JSON.parse(json); // <-- 에러 없음
+  alert(user.name); // 이름이 없습니다!
+} catch (e) {
+  alert("실행되지 않습니다.");
+}
+```
+
+- 위 예시에서 `JSON.parse`는 정상적으로 실행되었지만 `name`이 없는 건 에러를 유발하는 상황입니다.
+- 이제 `throw` 연산자를 사용해 에러 처리를 통합해 보도록 하겠습니다.
+
+<br>
+
+### ‘throw’ 연산자
+
+- `throw` 연산자는 에러를 생성합니다.
+
+```js
+throw <error object>
+```
+
+- 이론적으로는 숫자, 문자열 같은 원시형 자료를 포함한 어떤 것이든 에러 객체(error object)로 사용할 수 있습니다.
+- 하지만 내장 에러와의 호환을 위해 되도록 에러 객체에 `name`과 `message` 프로퍼티를 넣어주는 것을 권장합니다.
+- 자바스크립트는 `Error`, `SyntaxError`, `ReferenceError`, `TypeError`등의 표준 에러 객체 관련 생성자를 지원합니다.
+- 이 생성자들을 이용해 에러 객체를 만들 수도 있습니다.
+
+```js
+let error = new Error(message);
+// or
+let error = new SyntaxError(message);
+let error = new ReferenceError(message);
+// ...
+```
+
+- 일반 객체가 아닌 내장 생성자를 사용해 만든 내장 에러 객체의 `name` 프로퍼티는 생성자 이름과 동일한 값을 갖습니다.
+- 프로퍼티 `message`의 값은 인수에서 가져옵니다.
+
+```js
+let error = new Error("이상한 일이 발생했습니다. o_O");
+
+alert(error.name); // Error
+alert(error.message); // 이상한 일이 발생했습니다. o_O
+```
+
 <br>
 
 [출처]
