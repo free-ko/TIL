@@ -239,6 +239,46 @@ alert(error.name); // Error
 alert(error.message); // 이상한 일이 발생했습니다. o_O
 ```
 
+- 잘못된 데이터를 받았을 때, `JSON.parse`가 어떤 종류의 에러를 만들어내는지 아래 코드를 통해 살펴봅시다.
+
+```js
+try {
+  JSON.parse("{ 잘못된 형식의 json o_O }");
+} catch (e) {
+  alert(e.name); // SyntaxError
+  alert(e.message); // Unexpected token b in JSON at position 2
+}
+```
+
+- `SyntaxError`가 발생하네요.
+- 사용자를 나타내는 객체에 `name` 프로퍼티는 반드시 있어야 하므로, 이제 `name`이 없으면 에러가 발생한 것으로 간주하고 예외 처리해봅시다.
+- `throw` 연산자를 사용해 에러를 던져보겠습니다.
+
+```js
+let json = '{ "age": 30 }'; // 불완전한 데이터
+
+try {
+  let user = JSON.parse(json); // <-- 에러 없음
+
+  if (!user.name) {
+    throw new SyntaxError("불완전한 데이터: 이름 없음"); // (*)
+  }
+
+  alert(user.name);
+} catch (e) {
+  alert("JSON Error: " + e.message); // JSON Error: 불완전한 데이터: 이름 없음
+}
+```
+
+- `(*)`로 표시한 줄에서 `throw` 연산자는 `message`를 이용해 `SyntaxError`를 생성합니다.
+- 에러 생성 방식은 자바스크립트가 자체적으로 에러를 생성하는 방식과 동일합니다.
+- 에러가 발생했으므로 `try`의 실행은 즉시 중단되고 제어 흐름이 `catch`로 넘어간 것을 얼럿 창을 통해 확인할 수 있네요.
+- 이제 `JSON.parse`에서 에러가 발생한 경우를 포함해서 모든 에러를 `catch` 블록 안에서 처리할 수 있게 되었습니다.
+
+<br>
+
+## 에러 다시 던지기
+
 <br>
 
 [출처]
