@@ -311,6 +311,77 @@ try {
 
 - 보통 에러 타입을 `instanceof` 명령어로 체크합니다.
 
+```js
+try {
+  user = {
+    /*...*/
+  };
+} catch (err) {
+  if (err instanceof ReferenceError) {
+    alert("ReferenceError"); //  정의되지 않은 변수에 접근하여 'ReferenceError' 발생
+  }
+}
+```
+
+- `err.name` 프로퍼티로 에러 클래스 이름을 알 수도 있습니다. 기본형 에러는 모두 `err.name` 프로퍼티를 가집니다.
+- 또는 `err.constructor.name`를 사용할 수도 있습니다.
+- 에러를 다시 던져서 `catch` 블록에선 `SyntaxError`만 처리되도록 해보겠습니다.
+
+```js
+let json = '{ "age": 30 }'; // 불완전한 데이터
+try {
+  let user = JSON.parse(json);
+
+  if (!user.name) {
+    throw new SyntaxError("불완전한 데이터: 이름 없음");
+  }
+
+  blabla(); // 예상치 못한 에러
+
+  alert(user.name);
+} catch (e) {
+  if (e instanceof SyntaxError) {
+    alert("JSON Error: " + e.message);
+  } else {
+    throw e; // 에러 다시 던지기 (*)
+  }
+}
+```
+
+`catch` 블록 안의 `(*)`로 표시한 줄에서 다시 던져진(`rethrow`) 에러는 `try..catch` ‘밖으로 던져집니다’.
+
+- 이때 바깥에 `try..catch`가 있다면 여기서 에러를 잡습니다. 아니라면 스크립트는 죽을 겁니다.
+- 이렇게 하면 `catch` 블록에선 어떻게 다룰지 알고 있는 에러만 처리하고, 알 수 없는 에러는 ‘건너뛸 수’ 있습니다.
+- 이제 `try..catch`를 하나 더 만들어, 다시 던져진 예상치 못한 에러를 처리해 보겠습니다.
+
+```js
+function readData() {
+  let json = '{ "age": 30 }';
+
+  try {
+    // ...
+    blabla(); // 에러!
+  } catch (e) {
+    // ...
+    if (!(e instanceof SyntaxError)) {
+      throw e; // 알 수 없는 에러 다시 던지기
+    }
+  }
+}
+
+try {
+  readData();
+} catch (e) {
+  alert("External catch got: " + e); // 에러를 잡음
+}
+```
+
+- `readData`는 `SyntaxError`만 처리할 수 있지만, 함수 바깥의 `try..catch`에서는 예상치 못한 에러도 처리할 수 있게 되었습니다.
+
+<br>
+
+## try…catch…finally
+
 <br>
 
 [출처]
