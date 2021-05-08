@@ -382,6 +382,81 @@ try {
 
 ## try…catch…finally
 
+- `finally`안의 코드는 다음과 같은 상황에서 실행됩니다.
+- 에러가 없는 경우: `try` 실행이 끝난 후
+- 에러가 있는 경우: `catch` 실행이 끝난 후
+- `finally`를 사용하면 `try..catch`를 다음과 같이 확장할 수 있습니다.
+
+```js
+try {
+   ... 코드를 실행 ...
+} catch(e) {
+   ... 에러 핸들링 ...
+} finally {
+   ... 항상 실행 ...
+}
+```
+
+```js
+try {
+  alert("try 블록 시작");
+  if (confirm("에러를 만드시겠습니까?")) 이상한_코드();
+} catch (e) {
+  alert("catch");
+} finally {
+  alert("finally");
+}
+```
+
+- 위 코드는 두 가지 경로로 실행됩니다.
+
+1. "에러를 만드시겠습니까?"에 'OK’로 답한 경우: `try -> catch -> finally`
+2. 'No’로 답한 경우: `try -> finally`
+
+- `finally` 절은 무언가를 실행하고, 실행 결과에 상관없이 실행을 완료하고 싶을 경우 사용됩니다.
+- 피보나치 함수 `fib(n)`의 연산 시간을 측정하고 싶다고 해 봅시다.
+- 함수 실행 전에 측정을 시작해서 실행이 끝난 후 측정을 종료하면 되겠죠.
+- 그런데 함수 실행 도중 에러가 발생하면 어떻게 될까요? 아래 `fib(n)`에는 음수나 정수가 아닌 수를 입력할 경우 에러가 발생합니다.
+- 이런 경우에 `finally`를 사용할 수 있습니다.
+- `finally` 절은 무슨 일이 일어났든 관계없이 연산 시간 측정을 끝마치기 적절한 곳이죠.
+- `fib` 함수가 에러 없이 정상적으로 실행되든 에러가 발생하든 상관없이, `finally`를 사용하면 연산 시간을 제대로 측정할 수 있습니다
+
+```js
+let num = +prompt("양의 정수를 입력해주세요.", 35);
+
+let diff, result;
+
+function fib(n) {
+  if (n < 0 || Math.trunc(n) != n) {
+    throw new Error("음수나 정수가 아닌 값은 처리할 수 없습니다.");
+  }
+  return n <= 1 ? n : fib(n - 1) + fib(n - 2);
+}
+
+let start = Date.now();
+
+try {
+  result = fib(num);
+} catch (e) {
+  result = 0;
+} finally {
+  diff = Date.now() - start;
+}
+
+alert(result || "에러 발생");
+
+alert(`연산 시간: ${diff}ms`);
+```
+
+- 코드를 실행하고 프롬프트 대화상자에 `35`를 입력하면 `try` 다음에 `finally`가 정상적으로 실행되면서 연산 시간을 확인할 수 있습니다.
+- `-1`을 입력하면 에러가 발생하고, 연산 시간은 `0ms`가 됩니다.
+- 두 경우 모두 연산 시간이 정상적으로 측정되었네요.
+- 함수는 `return` 이나 `throw`를 만나면 종료되는데, 이렇게 `finally` 절을 사용하면 두 경우 모두를 처리할 수 있습니다.
+
+<br>
+
+### try..catch..finally 안의 변수는 지역 변수입니다.
+
 <br>
 
 [출처]
