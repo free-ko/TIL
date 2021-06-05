@@ -122,6 +122,56 @@ Promise.all([
 
 ## Promise.allSettled
 
+- 스펙에 추가된 지 얼마 안 된 문법입니다. 구식 브라우저는 폴리필이 필요합니다.
+- `Promise.all`은 프라미스가 하나라도 거절되면 전체를 거절합니다. 따라서, 프라미스 결과가 모두 필요할 때같이 `‘모 아니면 도’` 일 때 유용합니다.
+
+```js
+Promise.all([
+  fetch("/template.html"),
+  fetch("/style.css"),
+  fetch("/data.json"),
+]).then(render); // render 메서드는 fetch 결과 전부가 있어야 제대로 동작합니다.
+```
+
+- 반면, `Promise.allSettled`는 모든 프라미스가 처리될 때까지 기다립니다. 반환되는 배열은 다음과 같은 요소를 갖습니다.
+- 응답이 성공할 경우 – `{status:"fulfilled", value:result}`
+- 에러가 발생한 경우 – `{status:"rejected", reason:error}`
+- `fetch`를 사용해 여러 사람의 정보를 가져오고 있다고 해봅시다. 여러 요청 중 하나가 실패해도 다른 요청 결과는 여전히 있어야 합니다.
+- 이럴 때 `Promise.allSettled`를 사용할 수 있습니다.
+
+```js
+let urls = [
+  "https://api.github.com/users/iliakan",
+  "https://api.github.com/users/remy",
+  "https://no-such-url",
+];
+
+Promise.allSettled(urls.map((url) => fetch(url))).then((results) => {
+  // (*)
+  results.forEach((result, num) => {
+    if (result.status == "fulfilled") {
+      alert(`${urls[num]}: ${result.value.status}`);
+    }
+    if (result.status == "rejected") {
+      alert(`${urls[num]}: ${result.reason}`);
+    }
+  });
+});
+
+// (*)로 표시한 줄의 results는 다음과 같을 겁니다.
+[
+  {status: 'fulfilled', value: ...응답...},
+  {status: 'fulfilled', value: ...응답...},
+  {status: 'rejected', reason: ...에러 객체...}
+]
+```
+
+- `Promise.allSettled`를 사용하면 이처럼 각 프라미스의 상태와 값 또는 에러를 받을 수 있습니다.
+
+<br>
+
+## 폴리필
+
 <br>
 
 [출처]
