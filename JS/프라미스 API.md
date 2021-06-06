@@ -170,7 +170,64 @@ Promise.allSettled(urls.map((url) => fetch(url))).then((results) => {
 
 <br>
 
-## 폴리필
+### 폴리필
+
+- 브라우저가 `Promise.allSettled`를 지원하지 않는다면 폴리필을 구현하면 됩니다.
+
+```js
+if (!Promise.allSettled) {
+  Promise.allSettled = function (promises) {
+    return Promise.all(
+      promises.map((p) =>
+        Promise.resolve(p).then(
+          (value) => ({
+            status: "fulfilled",
+            value,
+          }),
+          (reason) => ({
+            status: "rejected",
+            reason,
+          })
+        )
+      )
+    );
+  };
+}
+```
+
+- 여기서 `promises.map`은 입력값을 받아 `p => Promise.resolve(p)`로 입력값을 프라미스로 변화시킵니다(프라미스가 아닌 값을 받은 경우).
+- 그리고 모든 프라미스에 `.then` 핸들러가 추가됩니다.
+- `then` 핸들러는 성공한 프라미스의 결괏값 `value`를 `{status:'fulfilled', value}`로, 실패한 프라미스의 결괏값 `reason`을 `{status:'rejected', reason}`으로 변경합니다.
+- `Promise.allSettled`의 구성과 동일하게 말이죠.
+- 이렇게 폴리필을 구현하면 프라미스 일부가 거부되더라도 `Promise.allSettled`를 사용해 프라미스 전체의 결과를 얻을 수 있습니다.
+
+<br>
+
+## Promise.race
+
+- `Promise.race`는 `Promise.all`과 비슷합니다.
+- 다만 가장 먼저 처리되는 프라미스의 결과(혹은 에러)를 반환합니다.
+
+```js
+let promise = Promise.race(iterable);
+```
+
+```js
+Promise.race([
+  new Promise((resolve, reject) => setTimeout(() => resolve(1), 1000)),
+  new Promise((resolve, reject) =>
+    setTimeout(() => reject(new Error("에러 발생!")), 2000)
+  ),
+  new Promise((resolve, reject) => setTimeout(() => resolve(3), 3000)),
+]).then(alert); // 1
+```
+
+- 첫 번째 프라미스가 가장 빨리 처리상태가 되기 때문에 첫 번째 프라미스의 결과가 `result` 값이 됩니다.
+- 이렇게 `Promise.race`를 사용하면 `'경주(race)의 승자’`가 나타난 순간 다른 프라미스의 결과 또는 에러는 무시됩니다.
+
+<br>
+
+## Promise.resolve/reject
 
 <br>
 
