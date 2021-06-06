@@ -229,6 +229,65 @@ Promise.race([
 
 ## Promise.resolve/reject
 
+- 프라미스 메서드 `Promise.resolve`와 `Promise.reject`는 `async/await` 문법이 생긴 후로 쓸모없어졌기 때문에 근래에는 거의 사용하지 않습니다.
+
+```js
+let promise = new Promise((resolve) => resolve(value));
+```
+
+- `Promise.resolve`는 호환성을 위해 함수가 프라미스를 반환하도록 해야 할 때 사용할 수 있습니다.
+- 아래 함수 `loadCached`는 인수로 받은 `URL`을 대상으로 `fetch`를 호출하고, 그 결과를 기억(cache)합니다.
+- 나중에 동일한 `URL`을 대상으로 `fetch`를 호출하면 캐시에서 호출 결과를 즉시 가져오는데, 이때 `Promise.resolve`를 사용해 캐시 된 내용을 프라미스로 만들어 반환 값이 항상 프라미스가 되게 합니다.
+
+```js
+let cache = new Map();
+
+function loadCached(url) {
+  if (cache.has(url)) {
+    return Promise.resolve(cache.get(url)); // (*)
+  }
+
+  return fetch(url)
+    .then((response) => response.text())
+    .then((text) => {
+      cache.set(url, text);
+      return text;
+    });
+}
+```
+
+- `loadCached`를 호출하면 프라미스가 반환된다는 것이 보장되기 때문에 `loadCached(url).then(…)`을 사용할 수 있습니다.
+- `loadCached` 뒤에 언제나 `.then`을 쓸 수 있게 됩니다.
+- `(*)`로 표시한 줄에서 `Promise.resolve`를 사용한 이유가 바로 여기에 있습니다.
+
+<br>
+
+### Promise.reject
+
+- `Promise.reject(error)`는 결괏값이 `error`인 거부 상태 프라미스를 생성합니다.
+
+```js
+let promise = new Promise((resolve, reject) => reject(error));
+```
+
+<br>
+
+## 요약
+
+- `Promise` 클래스에는 5가지 정적 메서드가 있습니다.
+
+1. `Promise.all(promises)` – 모든 프라미스가 이행될 때까지 기다렸다가 그 결괏값을 담은 배열을 반환합니다. 주어진 프라미스 중 하나라도 실패하면 `Promise.all`는 거부되고, 나머지 프라미스의 결과는 무시됩니다.
+2. `Promise.allSettled(promises)` – 최근에 추가된 메서드로 모든 프라미스가 처리될 때까지 기다렸다가 그 결과(객체)를 담은 배열을 반환합니다. 객체엔 다음과 같은 정보가 담깁니다.
+
+- `status`: `"fulfilled"` 또는 `"rejected"`
+- `value(프라미스가 성공한 경우)` 또는 `reason(프라미스가 실패한 경우)`
+
+3. `Promise.race(promises)` – 가장 먼저 처리된 프라미스의 결과 또는 에러를 담은 프라미스를 반환합니다.
+4. `Promise.resolve(value)` – 주어진 값을 사용해 이행 상태의 프라미스를 만듭니다.
+5. `Promise.reject(error)` – 주어진 에러를 사용해 거부 상태의 프라미스를 만듭니다.
+
+- 실무에선 다섯 메서드 중 `Promise.all`을 가장 많이 사용합니다.
+
 <br>
 
 [출처]
