@@ -120,6 +120,147 @@ showAvatar();
 
 ### await는 최상위 레벨 코드에서 작동하지 않습니다.
 
+- `await`을 이제 막 사용하기 시작한 분들은 최상위 레벨 코드(top-level code)에 `await`을 사용할 수 없다는 사실을 잊곤 합니다. 아래와 같은 코드는 동작하지 않습니다.
+
+```js
+// 최상위 레벨 코드에선 문법 에러가 발생함
+let response = await fetch("/article/promise-chaining/user.json");
+let user = await response.json();
+```
+
+- 하지만 익명 `async` 함수로 코드를 감싸면 최상위 레벨 코드에도 await를 사용할 수 있습니다.
+
+```js
+(async () => {
+  let response = await fetch('/article/promise-chaining/user.json');
+  let user = await response.json();
+  ...
+})();
+```
+
+<br>
+
+### await는 ‘thenable’ 객체를 받습니다.
+
+- `promise.then`처럼 `await`에도 `thenable` 객체(then 메서드가 있는 호출 가능한 객체)를 사용할 수 있습니다.
+- `thenable` 객체는 서드파티 객체가 프라미스가 아니지만 프라미스와 호환 가능한 객체를 제공할 수 있다는 점에서 생긴 기능입니다.
+- 서드파티에서 받은 객체가 `.then`을 지원하면 이 객체를 `await`와 함께 사용할 수 있습니다.
+- `await`는 데모용 클래스 `Thenable`의 인스턴스를 받을 수 있습니다.
+
+```js
+class Thenable {
+  constructor(num) {
+    this.num = num;
+  }
+  then(resolve, reject) {
+    alert(resolve);
+    // 1000밀리초 후에 이행됨(result는 this.num*2)
+    setTimeout(() => resolve(this.num * 2), 1000); // (*)
+  }
+}
+
+async function f() {
+  // 1초 후, 변수 result는 2가 됨
+  let result = await new Thenable(1);
+  alert(result);
+}
+
+f();
+```
+
+- `await`는 `.then`이 구현되어있으면서 프라미스가 아닌 객체를 받으면, 내장 함수 `resolve`와 `reject`를 인수로 제공하는 메서드인 `.then`을 호출합니다(일반 `Promise executor`가 하는 일과 동일합니다).
+- 그리고 나서 `await`는 `resolve`와 `reject` 중 하나가 호출되길 기다렸다가(`(*)`로 표시한 줄) 호출 결과를 가지고 다음 일을 진행합니다.
+
+<br>
+
+### async 클래스 메서드
+
+- 메서드 이름 앞에 `async`를 추가하면 `async` 클래스 메서드를 선언할 수 있습니다.
+
+```js
+class Waiter {
+  async wait() {
+    return await Promise.resolve(1);
+  }
+}
+
+new Waiter().wait().then(alert); // 1
+```
+
+- `async` 메서드와 `async` 함수는 프라미스를 반환하고 `await`를 사용할 수 있다는 점에서 동일합니다.
+
+<br>
+
+## 에러 핸들링
+
+- 프라미스가 정상적으로 이행되면 `await promise`는 프라미스 객체의 `result`에 저장된 값을 반환합니다.
+- 반면 프라미스가 거부되면 마치 `throw`문을 작성한 것처럼 에러가 던져집니다.
+
+```js
+async function f() {
+  await Promise.reject(new Error("에러 발생!"));
+}
+```
+
+- 위 코드는 아래 코드와 동일합니다.
+
+```js
+async function f() {
+  throw new Error("에러 발생!");
+}
+```
+
+- 실제 상황에선 프라미스가 거부 되기 전에 약간의 시간이 지체되는 경우가 있습니다.
+- 이런 경우엔 `await`가 에러를 던지기 전에 지연이 발생합니다.
+- `await`가 던진 에러는 `throw`가 던진 에러를 잡을 때처럼 `try..catch`를 사용해 잡을 수 있습니다.
+
+```js
+async function f() {
+  try {
+    let response = await fetch("http://유효하지-않은-주소");
+  } catch (err) {
+    alert(err); // TypeError: failed to fetch
+  }
+}
+
+f();
+```
+
+- 에러가 발생하면 제어 흐름이 `catch` 블록으로 넘어갑니다. 여러 줄의 코드를 `try`로 감싸는 것도 가능합니다.
+
+```js
+async function f() {
+  try {
+    let response = await fetch("http://유효하지-않은-url");
+    let user = await response.json();
+  } catch (err) {
+    // fetch와 response.json에서 발행한 에러 모두를 여기서 잡습니다.
+    alert(err);
+  }
+}
+
+f();
+```
+
+- `try..catch`가 없으면 아래 예시의 `async` 함수 `f()`를 호출해 만든 프라미스가 거부 상태가 됩니다.
+- `f()`에 `.catch`를 추가하면 거부된 프라미스를 처리할 수 있습니다.
+
+```js
+async function f() {
+  let response = await fetch("http://유효하지-않은-url");
+}
+
+// f()는 거부 상태의 프라미스가 됩니다.
+f().catch(alert); // TypeError: failed to fetch // (*)
+```
+
+- `.catch`를 추가하는 걸 잊으면, 처리되지 않은 프라미스 에러가 발생합니다(콘솔에서 직접 확인해 봅시다).
+- 이런 에러는 프라미스와 에러 핸들링 챕터에서 설명한 전역 이벤트 핸들러 `unhandledrejection`을 사용해 잡을 수 있습니다.
+
+<br>
+
+### async/await와 promise.then/catch
+
 <br>
 
 [출처]
