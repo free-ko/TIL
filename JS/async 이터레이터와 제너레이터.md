@@ -105,6 +105,72 @@ let range = {
 
 ### 전개 문법 ...은 비동기적으로 동작하지 않습니다.
 
+- 일반적인 동기 이터레이터가 필요한 기능은 비동기 이터레이터와 함께 사용할 수 없습니다.
+- 전개 문법은 일반 이터레이터가 필요로 하므로 아래와 같은 코드는 동작하지 않습니다.
+
+```js
+alert([...range]); // Symbol.iterator가 없기 때문에 에러 발생
+```
+
+- 전개 문법은 `await`가 없는 `for..of`와 마찬가지로, `Symbol.asyncIterator`가 아닌 `Symbol.iterator`를 찾기 때문에 에러가 발생하는 것은 당연합니다.
+
+<br>
+
+## async 제너레이터
+
+- 앞서 배운 바와 같이 자바스크립트에선 제너레이터를 사용할 수 있는데, 제너레이터는 이터러블 객체입니다.
+- 제너레이터 챕터에서 살펴본 `start`부터 end까지의 연속된 숫자를 생성해주는 제너레이터를 떠올려 봅시다.
+
+```js
+function* generateSequence(start, end) {
+  for (let i = start; i <= end; i++) {
+    yield i;
+  }
+}
+
+for (let value of generateSequence(1, 5)) {
+  alert(value); // 1, then 2, then 3, then 4, then 5
+}
+```
+
+- 일반 제너레이터에선 `await`를 사용할 수 없습니다. 그리고 모든 값은 동기적으로 생산됩니다.
+- `for..of` 어디에서도 딜레이를 줄 만한 곳이 없죠. 일반 제너레이터는 동기적 문법입니다.
+- 그런데 제너레이터 본문에서 `await`를 사용해야만 하는 상황이 발생하면 어떻게 해야 할까요? 아래와 같이 네트워크 요청을 해야 하는 상황이 발생하면 말이죠.
+- 물론 가능합니다. 아래 예시와 같이 `async`를 제너레이터 함수 앞에 붙여주면 됩니다.
+
+```js
+async function* generateSequence(start, end) {
+  for (let i = start; i <= end; i++) {
+    // await를 사용할 수 있습니다!
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
+    yield i;
+  }
+}
+
+(async () => {
+  let generator = generateSequence(1, 5);
+  for await (let value of generator) {
+    alert(value); // 1, 2, 3, 4, 5
+  }
+})();
+```
+
+- 이제 `for await...of`로 반복이 가능한 `async` 제너레이터를 사용할 수 있게 되었습니다.
+- `async` 제너레이터를 만드는 것은 실제로도 상당히 간단합니다.
+- `async` 키워드를 붙이기만 하면 제너레이터 안에서 프라미스와 기타 `async` 함수를 기반으로 동작하는 `await`를 사용할 수 있습니다.
+- `async` 제너레이터의 `generator.next()` 메서드는 비동기적이 되고, 프라미스를 반환한다는 점은 일반 제너레이터와 `async` 제너레이터엔 또 다른 차이입니다.
+- 일반 제너레이터에서는 `result = generator.next()`를 사용해 값을 얻습니다.
+- 반면 `async` 제너레이터에서는 아래와 같이 `await`를 붙여줘야 합니다.
+
+```js
+result = await generator.next(); // result = {value: ..., done: true/false}
+```
+
+<br>
+
+## async 이터러블
+
 <br>
 
 [출처]
