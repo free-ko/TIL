@@ -223,6 +223,91 @@ let range = {
 
 ## 실제 사례
 
+- 지금까진 아주 간단한 예시들만 살펴보며, `async` 제너레이터에 대한 기초를 다졌습니다. 이제 실무에서 접할법한 유스 케이스를 살펴보겠습니다.
+- 상당히 많은 온라인 서비스가 페이지네이션(pagination)을 구현해 데이터를 전송합니다.
+- 사용자 목록이 필요해서 서버에 요청을 보내면, 서버는 일정 숫자(예를 들어 100명의 사용자) 단위로 사용자를 끊어 정보를 '한 페이지’로 구성한 후, 다음 페이지를 볼 수 있는 URL과 함께 응답합니다.
+- 이런 패턴은 사용자 목록 전송뿐만 아니라, 다양한 서비스에서 찾아볼 수 있습니다. `GitHub`에서 커밋 이력을 볼 때도 페이지네이션이 사용됩니다.
+- 클라이언트는 `https://api.github.com/repos/<repo>/commits` 형태의 `URL`로 요청을 보냅니다.
+- `GitHub`에선 커밋 30개의 정보가 담긴 `JSON`과 함께, 다음 페이지에 대한 정보를 `Link` 헤더에 담아 응답합니다.
+- 더 많은 커밋 정보가 필요하면 헤더에 담긴 링크를 사용해 다음 요청을 보냅니다. 원하는 정보를 얻을 때까지 이런 과정을 반복합니다.
+- 실제 `GitHub API`는 복잡하지만, 여기선 커밋 정보가 담긴 이터러블 객체를 만들어서 아래와 같이 객체를 대상으로 반복 작업을 할 수 있게 해주는 간단한 API를 만들어 보도록 하겠습니다.
+
+```js
+let repo = "javascript-tutorial/en.javascript.info"; // 커밋 정보를 얻어올 GitHub 리포지토리
+
+for await (let commit of fetchCommits(repo)) {
+  // 여기서 각 커밋을 처리함
+}
+```
+
+- 필요할 때마다 요청을 보내 커밋 정보를 가져오는 함수 `fetchCommits(repo)`를 만들어 `API`를 구성하도록 하겠습니다.
+- `fetchCommits(repo)`에서 페이지네이션 관련 일들을 모두 처리하도록 하면 원하는 대로 `for await..of`에서 각 커밋을 처리할 수 있을 겁니다.
+- `async` 제너레이터를 이용하면 쉽게 함수를 구현할 수 있습니다.
+
+```js
+async function* fetchCommits(repo) {
+  let url = `https://api.github.com/repos/${repo}/commits`;
+
+  while (url) {
+    const response = await fetch(url, {
+      // (1)
+      headers: { "User-Agent": "Our script" }, // GitHub는 모든 요청에 user-agent헤더를 강제 합니다.
+    });
+
+    const body = await response.json(); // (2) 응답은 JSON 형태로 옵니다(커밋이 담긴 배열).
+
+    // (3) 헤더에 담긴 다음 페이지를 나타내는 URL을 추출합니다.
+    let nextPage = response.headers.get("Link").match(/<(.*?)>; rel="next"/);
+    nextPage = nextPage?.[1];
+
+    url = nextPage;
+
+    for (let commit of body) {
+      // (4) 페이지가 끝날 때까지 커밋을 하나씩 반환(yield)합니다.
+      yield commit;
+    }
+  }
+}
+```
+
+1. 다운로드는 `fetch` 메서드로 하겠습니다. `fetch`를 사용하면 인증 정보나 헤더 등을 함께 실어 요청할 수 있습니다. `GitHub`에서 강제하는 `User-Agent`를 헤더에 실어 보내겠습니다.
+2. `fetch` 전용 메서드인 `response.json()`을 사용해 요청 결과를 JSON으로 파싱합니다.
+3. 응답의 `Link` 헤더에서 다음 페이지의 `URL`을 얻습니다. 헤더에서 `https://api.github.com/repositories/93253246/commits?page=2`형태의 `URL`만 추출하기 위해 정규표현식을 사용하였습니다.
+4. 커밋을 하나씩 반환하는데, 전체 다 반환되면 다음 `while(url)` 반복문이 트리거 되어 서버에 다시 요청을 보냅니다.
+
+- 사용법은 다음과 같습니다(콘솔 창을 열어 각 커밋의 author를 확인해보세요).
+
+```js
+(async () => {
+  let count = 0;
+
+  for await (const commit of fetchCommits(
+    "javascript-tutorial/en.javascript.info"
+  )) {
+    console.log(commit.author.login);
+
+    if (++count == 100) {
+      // 100번째 커밋에서 멈춥니다.
+      break;
+    }
+  }
+})();
+```
+
+- 처음에 구상했던 `API`가 구현되었습니다. 페이지네이션과 관련된 내부 메커니즘은 바깥에서 볼 수 없고, 우리는 단순히 `async` 제너레이터를 사용해 원하는 커밋을 반환받기만 하면 됩니다.
+
+<br>
+
+## 요약
+
+- 일반적인 이터레이터와 제너레이터는 데이터를 가져오는 데 시간이 걸리지 않을 때에 적합합니다.
+- 그런데 약간의 지연이 있어서 데이터가 비동기적으로 들어오는 경우 `async` 이터레이터와 `async` 제너레이터, `for..of`대신 `for await..of`를 사용하게 됩니다.
+- 웹 개발을 하다 보면 띄엄띄엄 들어오는 데이터 스트림을 다뤄야 하는 경우가 자주 생깁니다. 용량이 큰 파일을 다운로드하거나 업로드 할 때와 같이 말이죠.
+- 이런 데이터를 처리할 때 `async` 제너레이터를 사용할 수 있습니다.
+- 참고로 브라우저 등의 몇몇 호스트 환경은 데이터 스트림을 처리할 수 있게 해주는 `API`인 `Streams`을 제공하기도 합니다.
+- `Streams API`에서 제공하는 특별한 인터페이스를 사용하면, 데이터를 변경하여 한 스트림에서 다른 스트림으로 데이터를 전달할 수 있습니다.
+- 따라서 한쪽에서 받은 데이터를 다른 쪽에 즉각 전달하는 게 가능해집니다.
+
 <br>
 
 [출처]
