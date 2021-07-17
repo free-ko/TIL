@@ -64,6 +64,96 @@ for (let key in proxy) alert(key); // test, 반복도 잘 동작합니다. -- (3
 
 ## get 트랩으로 프로퍼티 기본값 설정하기
 
+- 가장 흔히 볼 수 있는 트랩은 프로퍼티를 읽거나 쓸 때 사용되는 트랩입니다.
+- 프로퍼티 읽기를 가로채려면 `handler`에 `get(target, property, receiver)` 메서드가 있어야 합니다.
+- `get`메서드는 프로퍼티를 읽으려고 할 때 작동합니다. 인수는 다음과 같습니다.
+- `target` : 동작을 전달할 객체로 `new Proxy`의 첫 번째 인자입니다.
+- `property` : 프로퍼티 이름
+- `receiver` : 타깃 프로퍼티가 `getter`라면 `receiver`는 `getter`가 호출될 때 `this` 입니다.
+- 대개는 `proxy` 객체 자신이 `this`가 됩니다.
+- 프락시 객체를 상속받은 객체가 있다면 해당 객체가 `this`가 되기도 하죠.
+- `get`을 활용해 객체에 기본값을 설정해보겠습니다.
+- 예시에서 만들 것은, 존재하지 않는 요소를 읽으려고 할 때 기본값 `0`을 반환해주는 배열입니다.
+- 존재하지 않는 요소를 읽으려고 하면 배열은 원래 `undefined`을 반환하는데, 예시에선 배열(객체)을 프락시로 감싸서 존재하지 않는 요소(프로퍼티)를 읽으려고 할 때 `0`이 반환되도록 해보겠습니다.
+
+```js
+let numbers = [0, 1, 2];
+
+numbers = new Proxy(numbers, {
+  get(target, prop) {
+    if (prop in target) {
+      return target[prop];
+    } else {
+      return 0; // 기본값
+    }
+  },
+});
+
+alert(numbers[1]); // 1
+alert(numbers[123]); // 0 (해당하는 요소가 배열에 없으므로 0이 반환됨)
+```
+
+- 예시를 통해 알 수 있듯이 `get`을 사용해 트랩을 만드는 건 상당히 쉽습니다.
+- `Proxy`를 사용하면 ‘기본’ 값 설정 로직을 원하는 대로 구현할 수 있죠.
+- 구절과 번역문이 저장되어있는 사전이 있다고 가정해봅시다.
+
+```js
+let dictionary = {
+  Hello: "안녕하세요",
+  Bye: "안녕히 가세요",
+};
+
+alert(dictionary["Hello"]); // 안녕하세요
+alert(dictionary["Welcome"]); // undefined
+```
+
+- 지금 상태론 `dictionary`에 없는 구절에 접근하면 `undefined`가 반환됩니다.
+- 사전에 없는 구절을 검색하려 했을 때 `undefined`가 아닌 구절 그대로를 반환해주는 게 좀 더 나을 것 같다는 생각이 드네요.
+- `dictionary`를 프락시로 감싸서 프로퍼티를 읽으려고 할 때 이를 프락시가 가로채도록 하면 우리가 원하는 기능을 구현할 수 있습니다.
+
+```js
+let dictionary = {
+  Hello: "안녕하세요",
+  Bye: "안녕히 가세요",
+};
+
+dictionary = new Proxy(dictionary, {
+  get(target, phrase) {
+    // 프로퍼티를 읽기를 가로챕니다.
+    if (phrase in target) {
+      // 조건: 사전에 구절이 있는 경우
+      return target[phrase]; // 번역문을 반환합니다
+    } else {
+      // 구절이 없는 경우엔 구절 그대로를 반환합니다.
+      return phrase;
+    }
+  },
+});
+
+// 사전을 검색해봅시다!
+// 사전에 없는 구절을 입력하면 입력값이 그대로 반환됩니다.
+alert(dictionary["Hello"]); // 안녕하세요
+alert(dictionary["Welcome to Proxy"]); // Welcome to Proxy (입력값이 그대로 출력됨)
+```
+
+<br>
+
+### 주의
+
+- 프락시 객체가 변수를 어떻게 덮어쓰고 있는지 눈여겨보시기 바랍니다.
+
+```js
+dictionary = new Proxy(dictionary, ...);
+```
+
+- 타깃 객체의 위치와 상관없이 프락시 객체는 타깃 객체를 덮어써야만 합니다.
+- 객체를 프락시로 감싼 이후엔 절대로 타깃 객체를 참조하는 코드가 없어야 합니다.
+- 그렇지 않으면 엉망이 될 확률이 아주 높아집니다.
+
+<br>
+
+## set 트랩으로 프로퍼티 값 검증하기
+
 <br>
 
 [출처]
