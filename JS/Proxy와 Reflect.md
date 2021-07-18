@@ -210,6 +210,88 @@ alert("윗줄에서 에러가 발생했기 때문에 이 줄은 절대 실행되
 
 ## ownKeys와 getOwnPropertyDescriptor로 반복 작업하기
 
+- `Object.keys`, `for..in` 반복문을 비롯한 프로퍼티 순환 관련 메서드 대다수는 내부 메서드 `[[OwnPropertyKeys]]`(트랩 메서드는 `ownKeys`임)를 사용해 프로퍼티 목록을 얻습니다.
+- 그런데 세부 동작 방식엔 차이가 있습니다.
+- `Object.getOwnPropertyNames(obj)` – 심볼형이 아닌 키만 반환합니다.
+- `Object.getOwnPropertySymbols(obj)` – 심볼형 키만 반환합니다.
+- `Object.keys/values()` – `enumerable` 플래그가 `true`이면서 심볼형이 아닌 키나 심볼형이 아닌 키에 해당하는 값 전체를 반환합니다(프로퍼티 플래그에 관한 내용은 프로퍼티 플래그와 설명자에서 찾아보실 수 있습니다).
+- `for..in` 반복문 – `enumerable` 플래그가 `true`인 심볼형이 아닌 키, 프로토타입 키를 순회합니다.
+- 메서드마다 차이는 있지만 `[[OwnPropertyKeys]]`를 통해 프로퍼티 목록을 얻는다는 점은 동일합니다.
+- 아래 예시에선 `ownKeys` 트랩을 사용해 `_`로 시작하는 프로퍼티는 `for..in` 반복문의 순환 대상에서 제외하도록 해보았습니다.
+- `ownKeys`를 사용했기 때문에 `Object.keys`와 `Object.values`에도 동일한 로직이 적용되는 것을 확인할 수 있습니다.
+
+```js
+let user = {
+  name: "John",
+  age: 30,
+  _password: "***",
+};
+
+user = new Proxy(user, {
+  ownKeys(target) {
+    return Object.keys(target).filter((key) => !key.startsWith("_"));
+  },
+});
+
+// "ownKeys" 트랩은 _password를 건너뜁니다.
+for (let key in user) alert(key); // name, age
+
+// 아래 두 메서드에도 동일한 로직이 적용됩니다.
+alert(Object.keys(user)); // name,age
+alert(Object.values(user)); // John,30
+```
+
+- 지금까진 의도한 대로 예시가 잘 동작하네요.
+- 그런데 객체 내에 존재하지 않는 키를 반환하려고 하면 `Object.keys`는 이 키를 제대로 보여주지 않습니다.
+
+```js
+let user = {};
+
+user = new Proxy(user, {
+  ownKeys(target) {
+    return ["a", "b", "c"];
+  },
+});
+
+alert(Object.keys(user)); // <빈 문자열>
+```
+
+- 이유가 무엇일까요? 답은 간단합니다.
+- `Object.keys`는 `enumerable` 플래그가 있는 프로퍼티만 반환하기 때문이죠.
+- 이를 확인하기 위해 `Object.keys`는 내부 메서드인 `[[GetOwnProperty]]`를 호출해 모든 프로퍼티의 설명자를 확인합니다.
+- 위 예시의 프로퍼티는 설명자가 하나도 없고 `enumerable` 플래그도 없으므로 순환 대상에서 제외되는 것이죠.
+- `Object.keys` 호출 시 프로퍼티를 반환하게 하려면 `enumerable` 플래그를 붙여줘 프로퍼티가 객체에 존재하도록 하거나 `[[GetOwnProperty]]`가 호출될 때 이를 중간에서 가로채서 설명자 `enumerable: true`를 반환하게 해주면 됩니다.
+- `getOwnPropertyDescriptor` 트랩이 바로 이때 사용되죠.
+- 예시를 살펴봅시다.
+
+```js
+let user = {};
+
+user = new Proxy(user, {
+  ownKeys(target) {
+    // 프로퍼티 리스트를 얻을 때 딱 한 번 호출됩니다.
+    return ["a", "b", "c"];
+  },
+
+  getOwnPropertyDescriptor(target, prop) {
+    // 모든 프로퍼티를 대상으로 호출됩니다.
+    return {
+      enumerable: true,
+      configurable: true,
+      /* 이 외의 플래그도 반환할 수 있습니다. "value:..."도 가능합니다. */
+    };
+  },
+});
+
+alert(Object.keys(user)); // a, b, c
+```
+
+- 객체에 프로퍼티가 없을 때 `[[GetOwnProperty]]`만 가로채면 된다는 점을 다시 한번 상기하시기 바랍니다.
+
+<br>
+
+## deleteProperty와 여러 트랩을 사용해 프로퍼티 보호하기
+
 <br>
 
 [출처]
