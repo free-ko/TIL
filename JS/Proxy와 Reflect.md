@@ -154,6 +154,62 @@ dictionary = new Proxy(dictionary, ...);
 
 ## set 트랩으로 프로퍼티 값 검증하기
 
+- 숫자만 저장할 수 있는 배열을 만들고 싶다고 가정해봅시다. 숫자형이 아닌 값을 추가하려고 하면 에러가 발생하도록 해야겠죠.
+- 프로퍼티에 값을 쓰려고 할 때 이를 가로채는 `set` 트랩을 사용해 이를 구현해보도록 하겠습니다.
+- `set` 메서드의 인수는 아래와 같은 역할을 합니다.
+- `set(target, property, value, receiver):`
+- `target` : 동작을 전달할 객체로 `new Proxy`의 첫 번째 인자입니다.
+- `property` : 프로퍼티 이름
+- `value` : 프로퍼티 값
+- `receiver` : `get` 트랩과 유사하게 동작하는 객체로, `setter` 프로퍼티에만 관여합니다.
+- `value` : 프로퍼티 값
+- `receiver` : `get` 트랩과 유사하게 동작하는 객체로, `setter` 프로퍼티에만 관여합니다.
+- 우리가 구현해야 할 `set` 트랩은 숫자형 값을 설정하려 할 때만 `true`를, 그렇지 않은 경우엔(`TypeError`가 트리거되고) `false`를 반환하도록 해야 합니다.
+- `set` 트랩을 사용해 배열에 추가하려는 값이 숫자형인지 검증해봅시다.
+
+```js
+let numbers = [];
+
+numbers = new Proxy(numbers, {
+  // (*)
+  set(target, prop, val) {
+    // 프로퍼티에 값을 쓰는 동작을 가로챕니다.
+    if (typeof val == "number") {
+      target[prop] = val;
+      return true;
+    } else {
+      return false;
+    }
+  },
+});
+
+numbers.push(1); // 추가가 성공했습니다.
+numbers.push(2); // 추가가 성공했습니다.
+alert("Length is: " + numbers.length); // 2
+
+numbers.push("test"); // Error: 'set' on proxy
+
+alert("윗줄에서 에러가 발생했기 때문에 이 줄은 절대 실행되지 않습니다.");
+```
+
+- 배열 관련 기능들은 여전히 사용할 수 있다는 점에 주목해주시기 바랍니다.
+- `push`를 사용해 배열에 새로운 요소를 추가하고 `length` 프로퍼티는 이를 잘 반영하고 있다는 것을 통해 이를 확인할 수 있었습니다.
+- 프락시를 사용해도 기존에 있던 기능은 절대로 손상되지 않습니다.
+- `push`나 `unshift` 같이 배열에 값을 추가해주는 메서드들은 내부에서 `[[Set]]`을 사용하고 있기 때문에 메서드를 오버라이드 하지 않아도 프락시가 동작을 가로채고 값을 검증해줍니다.
+- 코드가 깨끗하고 간결해지는 효과가 있죠.
+
+<br>
+
+### true를 잊지 말고 반환해주세요.
+
+- 위에서 언급했듯이 꼭 지켜야 할 규칙이 있습니다.
+- `set` 트랩을 사용할 땐 값을 쓰는 게 성공했을 때 반드시 `true`를 반환해줘야 합니다.
+- `true`를 반환하지 않았거나 `falsy`한 값을 반환하게 되면 `TypeError`가 발생합니다.
+
+<br>
+
+## ownKeys와 getOwnPropertyDescriptor로 반복 작업하기
+
 <br>
 
 [출처]
