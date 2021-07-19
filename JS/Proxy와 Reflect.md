@@ -292,6 +292,112 @@ alert(Object.keys(user)); // a, b, c
 
 ## deleteProperty와 여러 트랩을 사용해 프로퍼티 보호하기
 
+- `_(밑줄)`이 앞에 붙은 프로퍼티나 메서드는 내부용으로만 쓰도록 하는 컨벤션은 널리 사용되고 있는 컨벤션 중 하나입니다.
+- `_`이 앞에 붙으면 객체 바깥에선 이 프로퍼티에 접근해선 안 됩니다.
+- 그런데 기술적으론 가능하죠.
+
+```js
+let user = {
+  name: "John",
+  _password: "비밀",
+};
+
+alert(user._password); // 비밀
+```
+
+- 프락시를 사용해 `_`로 시작하는 프로퍼티에 접근하지 못하도록 막아봅시다.
+- 원하는 기능을 구현하려면 아래와 같은 트랩이 필요합니다.
+- `get` – 프로퍼티를 읽으려고 하면 에러를 던져줌
+- `set` – 프로퍼티에 쓰려고 하면 에러를 던져줌
+- `deleteProperty` – 프로퍼티를 지우려고 하면 에러를 던져줌
+- `ownKeys` – `for..in`이나 `Object.keys`같은 프로퍼티 순환 메서드를 사용할 때 `_`로 시작하는 메서드는 제외함
+
+```js
+let user = {
+  name: "John",
+  _password: "***",
+};
+
+user = new Proxy(user, {
+  get(target, prop) {
+    if (prop.startsWith("_")) {
+      throw new Error("접근이 제한되어있습니다.");
+    }
+    let value = target[prop];
+    return typeof value === "function" ? value.bind(target) : value; // (*)
+  },
+  set(target, prop, val) {
+    // 프로퍼티 쓰기를 가로챕니다.
+    if (prop.startsWith("_")) {
+      throw new Error("접근이 제한되어있습니다.");
+    } else {
+      target[prop] = val;
+      return true;
+    }
+  },
+  deleteProperty(target, prop) {
+    // 프로퍼티 삭제를 가로챕니다.
+    if (prop.startsWith("_")) {
+      throw new Error("접근이 제한되어있습니다.");
+    } else {
+      delete target[prop];
+      return true;
+    }
+  },
+  ownKeys(target) {
+    // 프로퍼티 순회를 가로챕니다.
+    return Object.keys(target).filter((key) => !key.startsWith("_"));
+  },
+});
+
+// "get" 트랩이 _password 읽기를 막습니다.
+try {
+  alert(user._password); // Error: 접근이 제한되어있습니다.
+} catch (e) {
+  alert(e.message);
+}
+
+// "set" 트랩이 _password에 값을 쓰는것을 막습니다.
+try {
+  user._password = "test"; // Error: 접근이 제한되어있습니다.
+} catch (e) {
+  alert(e.message);
+}
+
+// "deleteProperty" 트랩이 _password 삭제를 막습니다.
+try {
+  delete user._password; // Error: 접근이 제한되어있습니다.
+} catch (e) {
+  alert(e.message);
+}
+
+// "ownKeys" 트랩이 순회 대상에서 _password를 제외시킵니다.
+for (let key in user) alert(key); // name
+```
+
+- `get` 트랩의 `(*)`로 표시한 줄을 눈여겨 봐주시기 바랍니다.
+
+```js
+get(target, prop) {
+  // ...
+  let value = target[prop];
+  return (typeof value === 'function') ? value.bind(target) : value; // (*)
+}
+```
+
+- 함수인지 여부를 확인하여 `value.bind(target)`를 호출 하고 있네요. 왜그럴까요?
+- 이유는 `user.checkPassword()`같은 객체 메서드가 `_password`에 접근할 수 있도록 해주기 위해서입니다.
+
+```js
+user = {
+  // ...
+  checkPassword(value) {
+    // checkPassword(비밀번호 확인)는 _password를 읽을 수 있어야 합니다.
+    return value === this._password;
+  },
+};
+```
+
 <br>
 
 [출처]
