@@ -420,6 +420,69 @@ user = {
 
 ## has 트랩으로 ‘범위’ 내 여부 확인하기
 
+- 범위를 담고 있는 객체가 있습니다.
+
+```js
+let range = {
+  start: 1,
+  end: 10,
+};
+```
+
+- `in` 연산자를 사용해 특정 숫자가 `range` 내에 있는지 확인해봅시다.
+- `has` 트랩은 `in` 호출을 가로챕니다.
+- `has(target, property)`
+- `target` – `new Proxy`의 첫 번째 인자로 전달되는 타깃 객체
+- `property` – 프로퍼티 이름
+
+```js
+let range = {
+  start: 1,
+  end: 10,
+};
+
+range = new Proxy(range, {
+  has(target, prop) {
+    return prop >= target.start && prop <= target.end;
+  },
+});
+
+alert(5 in range); // true
+alert(50 in range); // false
+```
+
+<br>
+
+## apply 트랩으로 함수 감싸기
+
+- 함수 역시 프락시로 감쌀 수 있습니다.
+- `apply(target, thisArg, args)` 트랩은 프락시를 함수처럼 호출하려고 할 때 동작합니다.
+- `target` – 타깃 객체(자바스크립트에서 함수는 객체임)
+- `thisArg` – `this`의 값
+- `args` – 인수 목록
+- `call/apply`와 데코레이터, 포워딩에서 살펴보았던 `delay(f, ms)` 데코레이터(`decorator`)를 떠올려봅시다.
+- `delay(f, ms)`를 호출하면 함수가 반환되는데, 이 함수는 함수 `f`가 `ms`밀리초 후에 호출되도록 해주었죠.
+- 함수를 기반으로 작성했던 데코레이터는 다음과 같습니다.
+
+```js
+function delay(f, ms) {
+  // 지정한 시간이 흐른 다음에 f 호출을 전달해주는 래퍼 함수를 반환합니다.
+  return function () {
+    // (*)
+    setTimeout(() => f.apply(this, arguments), ms);
+  };
+}
+
+function sayHi(user) {
+  alert(`Hello, ${user}!`);
+}
+
+// 래퍼 함수로 감싼 다음에 sayHi를 호출하면 3초 후 함수가 호출됩니다.
+sayHi = delay(sayHi, 3000);
+
+sayHi("John"); // Hello, John! (3초 후)
+```
+
 <br>
 
 [출처]
