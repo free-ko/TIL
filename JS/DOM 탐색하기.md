@@ -51,6 +51,65 @@
 
 ## childNodes, firstChild, lastChild로 자식 노드 탐색하기
 
+- 앞으로 사용할 두 가지 용어를 먼저 정의하고 설명을 이어나가도록 하겠습니다.
+- `자식 노드(child node, children)` 는 바로 아래의 자식 요소를 나타냅니다. 자식 노드는 부모 노드의 바로 아래에서 중첩 관계를 만듭니다. `<head>`와 `<body>`는 `<html>`요소의 자식 노드입니다.
+- `후손 노드(descendants)` 는 중첩 관계에 있는 모든 요소를 의미합니다. 자식 노드, 자식 노드의 모든 자식 노드 등이 후손 노드가 됩니다.
+- 아래 예시에서 `<body>`는 `<div>`와 `<ul>`, 몇 개의 빈 텍스트 노드를 자식 노드로 갖습니다.
+
+```js
+<html>
+  <body>
+    <div>시작</div>
+
+    <ul>
+      <li>
+        <b>항목</b>
+      </li>
+    </ul>
+  </body>
+</html>
+```
+
+- `<div>`나 `<ul>`같은 `<body>`의 자식 요소뿐만 아니라 `<ul>`의 자식 노드인 `<li>`와 `<b>`같이 더 깊은 곳에 있는 중첩 요소도 `<body>`의 후손 노드가 됩니다.
+- `childNodes` 컬렉션은 텍스트 노드를 포함한 모든 자식 노드를 담고 있습니다.
+- 아래 예시를 실행하면 `document.body`의 자식 노드가 출력됩니다.
+
+```js
+<html>
+<body>
+  <div>시작</div>
+
+  <ul>
+    <li>항목</li>
+  </ul>
+
+  <div>끝</div>
+
+  <script>
+    for (let i = 0; i < document.body.childNodes.length; i++) {
+      alert( document.body.childNodes[i] ); // Text, DIV, Text, UL, ... , SCRIPT
+    }
+  </script>
+  ...추가 내용...
+</body>
+</html>
+```
+
+- 예시를 실행하면 흥미로운 점이 하나 발견됩니다. 마지막에 `<script>`가 출력되죠. `<script>` 아래 더 많은 내용(…추가 내용…)이 있지만, 스크립트 실행 시점엔 브라우저가 추가 내용은 읽지 못한 상태이기 때문에 스크립트 역시 추가 내용을 보지 못해서 이런 결과가 나타났습니다.
+- `firstChild`와 `lastChild` 프로퍼티를 이용하면 첫 번째, 마지막 자식 노드에 빠르게 접근할 수 있습니다.
+- 이 프로퍼티들은 단축키 같은 역할을 합니다. 자식 노드가 존재하면 아래 비교문은 항상 참이 됩니다.
+
+```js
+elem.childNodes[0] === elem.firstChild;
+elem.childNodes[elem.childNodes.length - 1] === elem.lastChild;
+```
+
+- 참고로 자식 노드의 존재 여부를 검사할 땐 함수 `elem.hasChildNodes()`를 사용할 수도 있습니다.
+
+<br>
+
+## DOM 컬렉션
+
 <br>
 
 [출처]
