@@ -166,6 +166,48 @@ alert(Array.from(document.body.childNodes).filter); // function
 
 ## 형제와 부모 노드
 
+- 같은 부모를 가진 노드는 형제(sibling) 노드 라고 부릅니다.
+- `<head>`와 `<body>`는 대표적인 형제 노드입니다.
+
+```js
+<html>
+  <head>...</head>
+  <body>...</body>
+</html>
+```
+
+- `<body>`는 `<head>`의 ‘다음(next)’ 혹은 '우측(right)'에 있는 형제 노드입니다.
+- `<head>`는 `<body>`의 ‘이전(previous)’ 혹은 '좌측(left)'에 있는 형제 노드입니다.
+- 다음 형제 노드에 대한 정보는 `nextSibling`, 이전 형제 노드에 대한 정보는 `previousSibling` 프로퍼티에서 찾을 수 있습니다.
+- 부모 노드에 대한 정보는 `parentNode` 프로퍼티를 이용해 참조할 수 있습니다.
+
+```js
+// <body>의 부모 노드는 <html>입니다
+alert(document.body.parentNode === document.documentElement); // true
+
+// <head>의 다음 형제 노드는 <body>입니다.
+alert(document.head.nextSibling); // HTMLBodyElement
+
+// <body>의 이전 형제 노드는 <head>입니다.
+alert(document.body.previousSibling); // HTMLHeadElement
+```
+
+<br>
+
+## 요소 간 이동
+
+- 지금까지 언급한 탐색 관련 프로퍼티는 모든 종류의 노드를 참조합니다. `childNodes`를 이용하면 텍스트 노드, 요소 노드, 심지어 주석 노드까지 참조할 수 있죠.
+- 하지만 실무에서 텍스트 노드나 주석 노드는 잘 다루지 않습니다. 웹 페이지를 구성하는 태그의 분신인 요소 노드를 조작하는 작업이 대다수이죠.
+- 이런 실제 상황을 토대로 DOM 요소 노드 탐색이 어떻게 이루어지는지 알아봅시다.
+
+![DOM 구조](./Image/img6.png)
+
+- 위 그림 속 관계는 챕터 앞쪽에서 다뤘던 관계와 유사해 보입니다. Element라는 단어가 추가된 점만 다르네요.
+- `children` 프로퍼티는 해당 요소의 자식 노드 중 요소 노드만을 가리킵니다.
+- `firstElementChild`와 `lastElementChild` 프로퍼티는 각각 첫 번째 자식 요소 노드와 마지막 자식 요소 노드를 가리킵니다.
+- `previousElementSibling`과 `nextElementSibling`은 형제 요소 노드를 가리킵니다.
+- `parentElement` 는 부모 요소 노드를 가리킵니다.
+
 <br>
 
 [출처]
