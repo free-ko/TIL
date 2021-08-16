@@ -208,6 +208,55 @@ alert(document.body.previousSibling); // HTMLHeadElement
 - `previousElementSibling`과 `nextElementSibling`은 형제 요소 노드를 가리킵니다.
 - `parentElement` 는 부모 요소 노드를 가리킵니다.
 
+### 부모가 요소가 아니라면 parentElement는 어떻게 되나요?
+
+- `parentElement` 프로퍼티는 부모 '요소 노드’를 반환하는 반면 `parentNode` 프로퍼티는 '종류에 상관없이 부모 노드’를 반환합니다.
+- 대개 두 프로퍼티는 같은 노드를 반환합니다.
+- 그런데 `document.documentElement`아래와 같은 상황에서는 다른 노드를 반환합니다.
+
+```js
+alert(document.documentElement.parentNode); // document
+alert(document.documentElement.parentElement); // null
+```
+
+- 반환 값이 다른 이유는 `<html>`에 해당하는 `document.documentElement`의 부모는 `document`인데, `document` 노드는 요소 노드가 아니기 때문입니다.
+- 따라서 위 예시에서 `parentNode`는 의도한 대로 `document` 노드를 반환하지만, `parentElement`는 `null`을 반환합니다.
+- 이런 사소한 차이는 임의의 요소 노드 `elem`에서 시작해 `<html>`까지 거슬러 올라가고 싶은데, `document`까지는 가고 싶지 않을 때 유용하게 활용할 수 있습니다.
+
+```js
+while ((elem = elem.parentElement)) {
+  // <html>까지 거슬러 올라갑니다.
+  alert(elem);
+}
+```
+
+- 앞서 보았던 예시에서 `childNodes`를 `children`으로 대체해봅시다. 요소 노드만 출력되는 것을 확인할 수 있습니다.
+
+```js
+<html>
+<body>
+  <div>시작</div>
+
+  <ul>
+    <li>항목</li>
+  </ul>
+
+  <div>끝</div>
+
+  <script>
+    for (let elem of document.body.children) {
+      alert(elem); // DIV, UL, DIV, SCRIPT
+    }
+  </script>
+  ...
+</body>
+</html>
+```
+
+<br>
+
+## 테이블 탐색하기
+
 <br>
 
 [출처]
