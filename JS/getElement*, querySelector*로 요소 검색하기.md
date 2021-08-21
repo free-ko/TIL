@@ -61,6 +61,52 @@
 
 ### id는 중복되면 안 됩니다.
 
+- `id`는 유일무이해야 합니다. 문서 내 요소의 `id` 속성값은 중복되어선 안 됩니다.
+- 같은 `id`를 가진 요소가 여러 개 있으면 `document.getElementById`같이 `id`를 이용해 요소를 검색하는 메서드의 동작이 예측 불가능해집니다.
+- 검색된 여러 요소 중 어떤 요소를 반환할지 판단하지 못해 임의의 요소가 반환되죠. 문서 내 동일 `id`가 없도록 해 이런 일을 방지하도록 합시다.
+
+### `anyNode.getElementById`가 아닌 `document.getElementById`
+
+- `getElementById`는 `document` 객체를 대상으로 해당 `id`를 가진 요소 노드를 찾아 줍니다. 문서 노드가 아닌 다른 노드엔 호출할 수 없습니다.
+
+<br>
+
+## `querySelectorAll`
+
+- `elem.querySelectorAll(css)`은 다재다능한 요소 검색 메서드입니다.
+- 이 메서드는 `elem`의 자식 요소 중 주어진 `CSS` 선택자에 대응하는 요소 모두를 반환합니다.
+- 아래 예시는 마지막 `<li>`요소 모두를 반환합니다.
+
+```js
+<ul>
+  <li>1-1</li>
+  <li>1-2</li>
+</ul>
+<ul>
+  <li>2-1</li>
+  <li>2-2</li>
+</ul>
+<script>
+  let elements = document.querySelectorAll('ul > li:last-child');
+
+  for (let elem of elements) {
+    alert(elem.innerHTML); // "1-2", "2-2"
+  }
+</script>
+```
+
+- `querySelectorAll`은 `CSS` 선택자를 활용할 수 있다는 점에서 아주 유용합니다.
+
+### 가상 클래스도 사용할 수 있습니다.
+
+- `querySelectorAll`에는 `:hover`나 `:active` 같은 `CSS` 선택자의 가상 클래스(pseudo-class)도 사용할 수 있습니다.
+- `document.querySelectorAll(':hover')`을 사용하면 마우스 포인터가 위에 있는(hover 상태인) 요소 모두를 담은 컬렉션이 반환됩니다.
+- 이때 컬렉션은 `DOM` 트리 최상단에 위치한 `<html>`부터 가장 하단의 요소 순으로 채워집니다.
+
+<br>
+
+## querySelector
+
 <br>
 
 [출처]
