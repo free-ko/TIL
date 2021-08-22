@@ -8,30 +8,30 @@
 
 - 요소에 `id` 속성이 있으면 위치에 상관없이 메서드 `document.getElementById(id)`를 이용해 접근할 수 있습니다.
 
-```js
+```html
 <div id="elem">
   <div id="elem-content">Element</div>
 </div>
 
 <script>
   // 요소 얻기
-  let elem = document.getElementById('elem');
+  let elem = document.getElementById("elem");
 
   // 배경색 변경하기
-  elem.style.background = 'red';
+  elem.style.background = "red";
 </script>
 ```
 
 - 이에 더하여 `id` 속성값을 그대로 딴 전역 변수를 이용해 접근할 수도 있습니다.
 
-```js
+```html
 <div id="elem">
   <div id="elem-content">Element</div>
 </div>
 
 <script>
   // 변수 elem은 id가 'elem'인 요소를 참조합니다.
-  elem.style.background = 'red';
+  elem.style.background = "red";
 
   // id가 elem-content인 요소는 중간에 하이픈(-)이 있기 때문에 변수 이름으로 쓸 수 없습니다.
   // 이럴 땐 대괄호(`[...]`)를 사용해서 window['elem-content']로 접근하면 됩니다.
@@ -77,7 +77,7 @@
 - 이 메서드는 `elem`의 자식 요소 중 주어진 `CSS` 선택자에 대응하는 요소 모두를 반환합니다.
 - 아래 예시는 마지막 `<li>`요소 모두를 반환합니다.
 
-```js
+```html
 <ul>
   <li>1-1</li>
   <li>1-2</li>
@@ -87,7 +87,7 @@
   <li>2-2</li>
 </ul>
 <script>
-  let elements = document.querySelectorAll('ul > li:last-child');
+  let elements = document.querySelectorAll("ul > li:last-child");
 
   for (let elem of elements) {
     alert(elem.innerHTML); // "1-2", "2-2"
@@ -106,6 +106,109 @@
 <br>
 
 ## querySelector
+
+- `elem.querySelector(css)`는 주어진 CSS 선택자에 대응하는 요소 중 첫 번째 요소를 반환합니다.
+- `elem.querySelectorAll(css)[0]`과 동일하죠. `elem.querySelectorAll(css)[0]`은 선택자에 해당하는 모든 요소를 검색해 첫 번째 요소만을 반환하고, `elem.querySelector`는 해당하는 요소를 찾으면 검색을 멈춘다는 점에서 차이가 있습니다.
+- `elem.querySelector`가 더 빠른 이유이죠. `querySelector`는 `querySelectorAll`에 비해 코드의 길이가 짧다는 장점도 있습니다.
+
+<br>
+
+## matches
+
+- 지금까지 소개한 모든 메서드는 DOM 검색에 쓰입니다.
+- `elem.matches(css)`는 `DOM`을 검색하는 일이 아닌 조금 다른 일을 합니다.
+- 이 메서드는 요소 `elem`이 주어진 CSS 선택자와 일치하는지 여부를 판단해줍니다. 일치한다면 `true`, 아니라면 `false`를 반환하죠.
+- 요소가 담겨있는 배열 등을 순회해 원하는 요소만 걸러내고자 할 때 유용합니다.
+
+```html
+<a href="http://example.com/file.zip">...</a>
+<a href="http://ya.ru">...</a>
+
+<script>
+  // document.body.children가 아니더라도 컬렉션이라면 이 메서드를 적용할 수 있습니다.
+  for (let elem of document.body.children) {
+    if (elem.matches('a[href$="zip"]')) {
+      alert("주어진 CSS 선택자와 일치하는 요소: " + elem.href);
+    }
+  }
+</script>
+```
+
+<br>
+
+## closest
+
+- 부모 요소, 부모 요소의 부모 요소 등 DOM 트리에서 특정 요소의 상위에 있는 요소들은 조상(ancestor) 요소라고 합니다.
+- 메서드 `elem.closest(css)`는 `elem` 자기 자신을 포함하여 CSS 선택자와 일치하는 가장 가까운 조상 요소를 찾을 수 있게 도와줍니다.
+- `closest`메서드는 해당 요소부터 시작해 DOM 트리를 한 단계씩 거슬러 올라가면서 원하는 요소를 찾습니다.
+- CSS 선택자와 일치하는 요소를 찾으면, 검색을 중단하고 해당 요소를 반환합니다.
+
+```html
+<h1>목차</h1>
+
+<div class="contents">
+  <ul class="book">
+    <li class="chapter">1장</li>
+    <li class="chapter">2장</li>
+  </ul>
+</div>
+
+<script>
+  let chapter = document.querySelector(".chapter"); // LI
+
+  alert(chapter.closest(".book")); // UL
+  alert(chapter.closest(".contents")); // DIV
+
+  alert(chapter.closest("h1")); // null(h1은 li의 조상 요소가 아님)
+</script>
+```
+
+<br>
+
+## getElementsBy\*
+
+- 태그나 클래스 등을 이용해 원하는 노드를 찾아주는 메서드도 있습니다.
+- `querySelector`를 이용하는 게 더 편리하고 문법도 짧아서, 요즘은 이런 메서드들을 잘 쓰진 않습니다.
+- `elem.getElementsByTagName(tag)` – 주어진 태그에 해당하는 요소를 찾고, 대응하는 요소를 담은 컬렉션을 반환합니다. 매개변수 `tag`에 `"\*"`이 들어가면, '모든 태그’가 검색됩니다.
+- `elem.getElementsByClassName(className)` – `class` 속성값을 기준으로 요소를 찾고, 대응하는 요소를 담은 컬렉션을 반환합니다.
+- `document.getElementsByName(name)` – 아주 드물게 쓰이는 메서드로, 문서 전체를 대상으로 검색을 수행합니다. 검색 기준은 `name` 속성값이고, 이 메서드 역시 검색 결과를 담은 컬렉션을 반환합니다.
+
+```js
+// 문서 내 모든 div를 얻습니다.
+let divs = document.getElementsByTagName("div");
+```
+
+- 다음 예시는 표 안의 모든 `input` 태그를 찾습니다.
+
+```html
+<table id="table">
+  <tr>
+    <td>나이:</td>
+
+    <td>
+      <label>
+        <input type="radio" name="age" value="young" checked /> 18세 미만
+      </label>
+      <label>
+        <input type="radio" name="age" value="mature" /> 18세 이상, 60세 미만
+      </label>
+      <label>
+        <input type="radio" name="age" value="senior" /> 60세 이상
+      </label>
+    </td>
+  </tr>
+</table>
+
+<script>
+  let inputs = table.getElementsByTagName("input");
+
+  for (let input of inputs) {
+    alert(input.value + ": " + input.checked);
+  }
+</script>
+```
+
+### 's'를 절대 빠트리지 마세요!
 
 <br>
 
