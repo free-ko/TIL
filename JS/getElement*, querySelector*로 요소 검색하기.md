@@ -208,7 +208,49 @@ let divs = document.getElementsByTagName("div");
 </script>
 ```
 
-### 's'를 절대 빠트리지 마세요!
+### `'s'`를 절대 빠트리지 마세요!
+
+- 초보 개발자들은 가끔 `'s'`를 빼먹는 실수를 하곤 합니다. `getElementsByTagName`를 써야 하는데 `getElementByTagName`을 입력하곤 하죠.
+- `getElementById`는 요소 하나만을 반환하기 때문에 `s`가 없습니다.
+- `getElementsByTagName` 등의 메서드는 대응하는 요소를 담은 컬렉션을 반환하기 때문에 메서드 중간에 `"s"`가 들어갑니다.
+
+### 요소 하나가 아닌, 컬렉션을 반환합니다!
+
+```js
+// 동작하지 않는 코드
+document.getElementsByTagName("input").value = 5;
+```
+
+- `input` 요소 전체를 담은 컬렉션에 5를 할당하는 위 코드는 동작하지 않습니다.
+- 아마도 본래 의도는 컬렉션 내 요소에 값을 할당하는 것이었을 겁니다.
+- 컬렉션을 순회하거나 인덱스를 사용해 요소를 얻고 그 요소에 값을 할당하면 기존 의도대로 동작합니다. 아래와 같이 말이죠.
+
+```js
+// (문서에 input 요소가 있다면) 아래 코드는 잘 동작합니다.
+document.getElementsByTagName("input")[0].value = 5;
+```
+
+- 아래는 클래스 속성의 값이 `article`인 요소를 검색해주는 예시입니다.
+
+```html
+<form name="my-form">
+  <div class="article">글</div>
+  <div class="long article">내용이 긴 글</div>
+</form>
+
+<script>
+  // name 속성을 이용해 검색
+  let form = document.getElementsByName("my-form")[0];
+
+  // fomr 내에서 클래스 이름을 이용해 검색
+  let articles = form.getElementsByClassName("article");
+  alert(articles.length); // 2. 클래스 속성값이 'article'인 요소는 2개입니다.
+</script>
+```
+
+<br>
+
+## 살아있는 컬렉션
 
 <br>
 
