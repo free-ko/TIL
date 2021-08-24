@@ -252,6 +252,31 @@ document.getElementsByTagName("input")[0].value = 5;
 
 ## 살아있는 컬렉션
 
+- `'getElementsBy'`로 시작하는 모든 메서드는 살아있는 컬렉션을 반환합니다. 문서에 변경이 있을 때마다 컬렉션이 '자동 갱신’되어 최신 상태를 유지합니다.
+- 예시 내엔 스크립트 두 개가 있습니다.
+
+1. 첫 번째 스크립트는 `<div>`에 상응하는 요소를 담은 컬렉션에 대한 참조를 만듭니다. 스크립트가 실행되는 시점에 이 컬렉션의 길이는 1입니다.
+2. 두 번째 스크립트는 문서에 `<div>`가 하나 더 추가된 이후에 실행됩니다. 따라서 컬렉션의 길이는 2가 됩니다.
+
+```html
+<div>첫 번째 div</div>
+
+<script>
+  let divs = document.getElementsByTagName("div");
+  alert(divs.length); // 1
+</script>
+
+<div>두 번째 div</div>
+
+<script>
+  alert(divs.length); // 2
+</script>
+```
+
+- 반면, `querySelectorAll`은 정적인 컬렉션을 반환합니다. 컬렉션이 한 번 확정되면 더는 늘어나지 않습니다.
+- `querySelectorAll`을 사용하면 두 스크립트가 동일하게 1을 출력합니다.
+- 예시를 통해 두 방식의 차이를 살펴보았습니다. 문서에 새로운 `div`가추가되어도 `querySelectorAll`이 반환한 컬렉션은 이를 반영하지 못합니다.
+
 <br>
 
 [출처]
